@@ -43,4 +43,13 @@ class AthleteControllerTest {
             throw new RuntimeException(e);
         }
     }
+
+    @Test
+    void getById() {
+        try {
+            Athlete athlete = AthleteController.getById(220L);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

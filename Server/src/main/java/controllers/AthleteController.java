@@ -34,8 +34,32 @@ public class AthleteController {
             );
         }
         return athleteList;
-
     }
+
+    public static Athlete getById(Long id) throws SQLException {
+        Athlete athlete = null;
+        Connection conn = DatabaseConnection.getConnection();
+
+        String query = "SELECT * FROM Athletes WHERE id=" + id;
+        Statement st = conn.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        while(rs.next()) {
+            Club temp = ClubController.getById(rs.getLong(8));
+            athlete = new Athlete(
+                    rs.getLong(1),
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getDate(4).toLocalDate(),
+                    rs.getBoolean(5),
+                    rs.getInt(6),
+                    rs.getDouble(7),
+                    temp
+
+            );
+        }
+        return athlete;
+    }
+
 
     public static void add(Athlete athlete) throws SQLException {
         Connection conn = DatabaseConnection.getConnection();
