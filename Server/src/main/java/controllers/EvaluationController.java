@@ -70,6 +70,8 @@ public class EvaluationController {
         // Start a transaction
         connection.setAutoCommit(false);  // Disable auto-commit to begin transaction
 
+
+        // FIXME: OVDE NEMA POTREBE ZA OVAKVOM TRANSAKCIJOM JER SE IONAKO SAMO JEDAN UBACUJE
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             // Set values for the evaluation insert
             preparedStatement.setDate(1, Date.valueOf(evaluation.getEvaluationDate()));
@@ -90,7 +92,7 @@ public class EvaluationController {
             }
 
             // Commit the transaction
-            connection.commit();    // ZBOG OVOGA TWR DA MOZE ROLLBACK!
+            connection.commit();
         } catch (SQLException e) {
             // Rollback the transaction in case of an error
             connection.rollback();
