@@ -67,6 +67,35 @@ public class EvaluatorController {
         return evaluator;
     }
 
+    public static Evaluator getByCredentials(Evaluator e) throws SQLException {
+        String sql = "SELECT * FROM Evaluators WHERE username = ? AND password = ?";
+
+        Connection connection = DatabaseConnection.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+        preparedStatement.setString(1, e.getUsername());
+        preparedStatement.setString(2, e.getPassword());
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        Evaluator evaluator = null;
+        if (resultSet.next()) {
+            Long evaluatorId = resultSet.getLong("id");
+            String firstName = resultSet.getString("firstName");
+            String lastName = resultSet.getString("lastName");
+            String userName = resultSet.getString("username");
+            String userPassword = resultSet.getString("password");
+            String email = resultSet.getString("email");
+            String title = resultSet.getString("title");
+            LocalDate hireDate = resultSet.getDate("hireDate").toLocalDate();
+            Boolean active = resultSet.getBoolean("active");
+
+            evaluator = new Evaluator(evaluatorId, firstName, lastName, userName, userPassword, email, title, hireDate, active);
+        }
+
+        return evaluator;
+    }
+
     public static void add(Evaluator evaluator) throws SQLException {
         String sql = "INSERT INTO Evaluators (firstName, lastName, username, password, email, title, hireDate, active) "
             + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";

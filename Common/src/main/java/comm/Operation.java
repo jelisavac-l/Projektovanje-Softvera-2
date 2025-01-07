@@ -5,6 +5,7 @@ package comm;
  * @author luka
  */
 public enum Operation {
+    STOP,
     PING,
     LOGIN,
     REGISTER,

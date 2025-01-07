@@ -31,23 +31,15 @@ public class EvaluationController {
             String conditions = resultSet.getString("conditions");
             Double athleteWeight = resultSet.getDouble("athleteWeight");
 
-            // Get evaluator and athlete ids
             Long evaluatorId = resultSet.getLong("evaluator_id");
             Long athleteId = resultSet.getLong("athlete_id");
 
-            // Retrieve the Evaluator and Athlete objects using the getById() method
-            Evaluator evaluator = EvaluatorController.getById(evaluatorId);  // Assuming EvaluatorDao.getById() method
-            Athlete athlete = AthleteController.getById(athleteId);  // Assuming AthleteDao.getById() method
-
+            Evaluator evaluator = EvaluatorController.getById(evaluatorId);
+            Athlete athlete = AthleteController.getById(athleteId);
             Evaluation evaluation = new Evaluation(id, evaluationDate, conditions, athleteWeight, evaluator, athlete, null);
-
-            // Retrieve the EvaluationItems list using the getItemsList method
             List<EvaluationItem> items = EvaluationController.getItemsList(evaluation);
 
-            // Set the items to the Evaluation object
             evaluation.setItems(items);
-
-            // Add the Evaluation to the list
             evaluations.add(evaluation);
         }
 
@@ -56,7 +48,7 @@ public class EvaluationController {
 
     /**
      * Persist a new Evaluation (with items) to the database.
-     * <i>Note: This method was optimized with a little help from the good people of the internet.</i>
+     * <i>Note: This method has been optimized with a little help from the good people of the internet.</i>
      * @param evaluation Evaluation to be inserted.
      * @throws SQLException On database error.
      */
@@ -64,16 +56,13 @@ public class EvaluationController {
         String sql = "INSERT INTO Evaluation (evaluationDate, conditions, athleteWeight, evaluator_id, athlete_id) "
             + "VALUES (?, ?, ?, ?, ?)";
 
-        // Get connection from your custom DatabaseConnection class
         Connection connection = DatabaseConnection.getConnection();
 
-        // Start a transaction
         connection.setAutoCommit(false);  // Disable auto-commit to begin transaction
 
 
         // FIXME: OVDE NEMA POTREBE ZA OVAKVOM TRANSAKCIJOM JER SE IONAKO SAMO JEDAN UBACUJE
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            // Set values for the evaluation insert
             preparedStatement.setDate(1, Date.valueOf(evaluation.getEvaluationDate()));
             preparedStatement.setString(2, evaluation.getConditions());
             preparedStatement.setDouble(3, evaluation.getAthleteWeight());
@@ -145,14 +134,13 @@ public class EvaluationController {
             evaluationItemsList.add(evaluationItem);
         }
 
-        // Return the list of EvaluationItems
         return evaluationItemsList;
     }
 
     /**
      * Preforms insert operation on the composite table. More optimal solution compared to the iterative assignment
      * of IDs after the Evaluation object has been inserted.<br>
-     * <i>Note: This method was optimized with a little help from the good people of the internet.</i>
+     * <i>Note: This method has been optimized with a little help from the good people of the internet.</i>
      * @param items Items list.
      * @param evaluation The evaluation object, identified by its ID, which will be used to assign items of the
      *                   composite table.

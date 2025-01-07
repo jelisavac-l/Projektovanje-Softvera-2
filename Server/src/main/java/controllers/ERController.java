@@ -78,7 +78,6 @@ public class ERController {
 //        roleStatement.close();
 
 
-        // Return the list of ER objects
         return erList;
     }
 
