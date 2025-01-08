@@ -1,7 +1,6 @@
 import comm.*;
-import controllers.EvaluationController;
-import controllers.EvaluatorController;
-import domain.Evaluator;
+import controllers.*;
+import domain.*;
 
 import java.net.Socket;
 
@@ -83,39 +82,35 @@ public class ClientHandler extends Thread{
             }
             
             case ACTIVITY_GET: {
-                // TODO: Implement
-                throw new UnsupportedOperationException("Not implemented!");
-                
+                return ActivityController.getList();
             }
             
             case ACTIVITY_NEW: {
-                // TODO: Implement
-                throw new UnsupportedOperationException("Not implemented!");
-                
+                Activity temp = (Activity) request.getArgument();
+                ActivityController.add(temp);
+                return 0;
             }
             
             case ACTIVITY_UPDATE: {
                 // TODO: Implement
                 throw new UnsupportedOperationException("Not implemented!");
-                
+
             }
             
             case ACTIVITY_DELETE: {
-                // TODO: Implement
-                throw new UnsupportedOperationException("Not implemented!");
-                
+                Activity temp = (Activity) request.getArgument();
+                ActivityController.delete(temp);
+                return 0;
             }
             
             case ATHLETE_GET: {
-                // TODO: Implement
-                throw new UnsupportedOperationException("Not implemented!");
-                
+                return AthleteController.getList();
             }
             
             case ATHLETE_NEW: {
-                // TODO: Implement
-                throw new UnsupportedOperationException("Not implemented!");
-                
+                Athlete temp = (Athlete) request.getArgument();
+                AthleteController.add(temp);
+                return 0;
             }
             
             case ATHLETE_UPDATE: {
@@ -125,27 +120,24 @@ public class ClientHandler extends Thread{
             }
             
             case ATHLETE_DELETE: {
-                // TODO: Implement
-                throw new UnsupportedOperationException("Not implemented!");
-                
+                Athlete temp = (Athlete) request.getArgument();
+                AthleteController.delete(temp);
+                return 0;
             }
             
             case CLUB_GET: {
-                // TODO: Implement
-                throw new UnsupportedOperationException("Not implemented!");
-                
+                return ClubController.getList();
             }
             
             case CLUB_GET_BY_ID: {
-                // TODO: Implement
-                throw new UnsupportedOperationException("Not implemented!");
-                
+                Long id = (Long) request.getArgument();
+                return ClubController.getById(id);
             }
             
             case CLUB_NEW: {
-                // TODO: Implement
-                throw new UnsupportedOperationException("Not implemented!");
-                
+               Club temp = (Club) request.getArgument();
+               ClubController.add(temp);
+               return 0;
             }
             
             case CLUB_UPDATE: {
@@ -155,27 +147,23 @@ public class ClientHandler extends Thread{
             }
             
             case CLUB_DELETE: {
-                // TODO: Implement
+                // TODO: Implement here and in Controller
                 throw new UnsupportedOperationException("Not implemented!");
-                
+
             }
             
             case ER_GET: {
-                // TODO: Implement
-                throw new UnsupportedOperationException("Not implemented!");
-                
+                return ERController.getList();
             }
             
             case ER_NEW: {
-                // TODO: Implement
+                // FIXME: Not needed
                 throw new UnsupportedOperationException("Not implemented!");
-                
             }
             
             case ER_START: {
-                // TODO: Implement
+                // TODO: Implement here and in Controller
                 throw new UnsupportedOperationException("Not implemented!");
-                
             }
             
             case ER_END: {
@@ -185,15 +173,13 @@ public class ClientHandler extends Thread{
             }
             
             case EVALUATION_GET: {
-                // TODO: Implement
-                throw new UnsupportedOperationException("Not implemented!");
-                
+                return EvaluatorController.getList();
             }
             
             case EVALUATION_NEW: {
-                // TODO: Implement
-                throw new UnsupportedOperationException("Not implemented!");
-                
+                Evaluation temp = (Evaluation) request.getArgument();
+                EvaluationController.add(temp);
+                return 0;
             }
             
             case EVALUATION_UPDATE: {
@@ -203,15 +189,13 @@ public class ClientHandler extends Thread{
             }
             
             case EVALUATION_DELETE: {
-                // TODO: Implement
-                throw new UnsupportedOperationException("Not implemented!");
-                
+                Evaluation temp = (Evaluation) request.getArgument();
+                EvaluationController.delete(temp);
+                return 0;
             }
             
             case EVALUATOR_GET: {
-                // TODO: Implement
-                throw new UnsupportedOperationException("Not implemented!");
-                
+                return EvaluatorController.getList();
             }
             
             case EVALUATOR_UPDATE: {
@@ -221,27 +205,24 @@ public class ClientHandler extends Thread{
             }
             
             case EVALUATOR_DELETE: {
-                // TODO: Implement
-                throw new UnsupportedOperationException("Not implemented!");
-                
+                Evaluator temp = (Evaluator) request.getArgument();
+                EvaluatorController.delete(temp);
+                return 0;
             }
             
             case EVALUATOR_GET_ROLES: {
-                // TODO: Implement
-                throw new UnsupportedOperationException("Not implemented!");
-                
+                Evaluator temp = (Evaluator) request.getArgument();
+                return EvaluatorController.getAllRoleList(temp);
             }
             
             case ROLE_GET: {
-                // TODO: Implement
-                throw new UnsupportedOperationException("Not implemented!");
-                
+                return RoleController.getList();
             }
             
             case ROLE_NEW: {
-                // TODO: Implement
-                throw new UnsupportedOperationException("Not implemented!");
-                
+                Role temp = (Role) request.getArgument();
+                RoleController.add(temp);
+                return 0;
             }
             
             case ROLE_UPDATE: {
@@ -251,9 +232,9 @@ public class ClientHandler extends Thread{
             }
             
             case ROLE_DELETE: {
-                // TODO: Implement
-                throw new UnsupportedOperationException("Not implemented!");
-                
+                Role temp = (Role) request.getArgument();
+                RoleController.delete(temp);
+                return 0;
             }
         }
         return result;
