@@ -3,6 +3,7 @@ import controllers.*;
 import domain.*;
 
 import java.net.Socket;
+import java.util.List;
 
 public class ClientHandler extends Thread{
 
@@ -92,9 +93,10 @@ public class ClientHandler extends Thread{
             }
             
             case ACTIVITY_UPDATE: {
-                // TODO: Implement
-                throw new UnsupportedOperationException("Not implemented!");
-
+                @SuppressWarnings("unchecked")
+                List<Activity> activities = (List<Activity>) request.getArgument();
+                ActivityController.update(activities.get(0), activities.get(1));
+                return 0;
             }
             
             case ACTIVITY_DELETE: {
@@ -114,9 +116,10 @@ public class ClientHandler extends Thread{
             }
             
             case ATHLETE_UPDATE: {
-                // TODO: Implement
-                throw new UnsupportedOperationException("Not implemented!");
-                
+                @SuppressWarnings("unchecked")
+                List<Athlete> athletes = (List<Athlete>) request.getArgument();
+                AthleteController.update(athletes.get(0), athletes.get(1));
+                return 0;
             }
             
             case ATHLETE_DELETE: {
@@ -141,9 +144,10 @@ public class ClientHandler extends Thread{
             }
             
             case CLUB_UPDATE: {
-                // TODO: Implement
-                throw new UnsupportedOperationException("Not implemented!");
-                
+                @SuppressWarnings("unchecked")
+                List<Club> clubs = (List<Club>) request.getArgument();
+                ClubController.update(clubs.get(0), clubs.get(1));
+                return 0;
             }
             
             case CLUB_DELETE: {
@@ -162,14 +166,21 @@ public class ClientHandler extends Thread{
             }
             
             case ER_START: {
-                // TODO: Implement here and in Controller
-                throw new UnsupportedOperationException("Not implemented!");
+                @SuppressWarnings("unchecked")
+                List<Object> args = (List<Object>) request.getArgument();
+                Evaluator evaluator = (Evaluator) args.get(0);
+                Role role = (Role) args.get(1);
+                EvaluatorController.startRole(evaluator, role);
+                return 0;
             }
             
             case ER_END: {
-                // TODO: Implement
-                throw new UnsupportedOperationException("Not implemented!");
-                
+                @SuppressWarnings("unchecked")
+                List<Object> args = (List<Object>) request.getArgument();
+                Evaluator evaluator = (Evaluator) args.get(0);
+                Role role = (Role) args.get(1);
+                EvaluatorController.endRole(evaluator, role);
+                return 0;
             }
             
             case EVALUATION_GET: {
@@ -183,15 +194,18 @@ public class ClientHandler extends Thread{
             }
             
             case EVALUATION_UPDATE: {
-                // TODO: Implement
+//                @SuppressWarnings("unchecked")
+//                List<Evaluation> evaluations = (List<Evaluation>) request.getArgument();
+//                EvaluationController.update(evaluations.get(0), evaluations.get(1));
+//                return 0;
                 throw new UnsupportedOperationException("Not implemented!");
-                
             }
             
             case EVALUATION_DELETE: {
-                Evaluation temp = (Evaluation) request.getArgument();
-                EvaluationController.delete(temp);
-                return 0;
+//                Evaluation temp = (Evaluation) request.getArgument();
+//                EvaluationController.delete(temp);
+//                return 0;
+                throw new UnsupportedOperationException("Not implemented!");
             }
             
             case EVALUATOR_GET: {
@@ -199,9 +213,10 @@ public class ClientHandler extends Thread{
             }
             
             case EVALUATOR_UPDATE: {
-                // TODO: Implement
-                throw new UnsupportedOperationException("Not implemented!");
-                
+                @SuppressWarnings("unchecked")
+                List<Evaluator> evaluators = (List<Evaluator>) request.getArgument();
+                EvaluatorController.update(evaluators.get(0), evaluators.get(1));
+                return 0;
             }
             
             case EVALUATOR_DELETE: {
@@ -226,9 +241,10 @@ public class ClientHandler extends Thread{
             }
             
             case ROLE_UPDATE: {
-                // TODO: Implement
-                throw new UnsupportedOperationException("Not implemented!");
-                
+                @SuppressWarnings("unchecked")
+                List<Role> roles = (List<Role>) request.getArgument();
+                RoleController.update(roles.get(0), roles.get(1));
+                return 0;
             }
             
             case ROLE_DELETE: {
