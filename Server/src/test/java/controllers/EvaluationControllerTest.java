@@ -90,4 +90,14 @@ class EvaluationControllerTest {
     @Test
     void testDelete() {
     }
+
+    @Test
+    void invalidate() {
+        try {
+            List<Evaluation> evaluations = EvaluationController.getList();
+            EvaluationController.invalidate(evaluations.get(0));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

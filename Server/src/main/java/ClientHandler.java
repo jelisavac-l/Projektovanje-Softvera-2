@@ -10,12 +10,14 @@ public class ClientHandler extends Thread{
     private final Socket socket;
     private final Sender sender;
     private final Receiver receiver;
+    private Evaluator loggedIn;
 
     public ClientHandler(Socket socket) {
         this.socket = socket;
         this.sender = new Sender(socket);
         this.receiver = new Receiver(socket);
         threadPrint("This thread is connected to: " + socket.getInetAddress());
+        loggedIn = null;
     }
 
     private void threadPrint(String msg) {
@@ -62,9 +64,9 @@ public class ClientHandler extends Thread{
      */
     private synchronized Object handleRequest(Request request) throws Exception {
         Object result = null;
-        
+        threadPrint("Client has requested " + request.getOperation());
         switch (request.getOperation()) {
-            
+
             case PING: {
                 return "PONG";
             }
@@ -73,6 +75,10 @@ public class ClientHandler extends Thread{
                 Evaluator temp = (Evaluator) request.getArgument();
                 Evaluator found = EvaluatorController.getByCredentials(temp);
                 if(found == null) throw new Exception("User not found!");
+
+                // Assign that user to this thread.
+                loggedIn = found;
+
                 return found;
             }
             
@@ -83,6 +89,8 @@ public class ClientHandler extends Thread{
             }
             
             case ACTIVITY_GET: {
+                // Za SVE zivo implementitrati getList(SearchCriteria sc :((((( )
+                // SearchCriteria(User.class, u)
                 return ActivityController.getList();
             }
             
@@ -184,7 +192,7 @@ public class ClientHandler extends Thread{
             }
             
             case EVALUATION_GET: {
-                return EvaluatorController.getList();
+                return EvaluationController.getList();
             }
             
             case EVALUATION_NEW: {
@@ -207,7 +215,13 @@ public class ClientHandler extends Thread{
 //                return 0;
                 throw new UnsupportedOperationException("Not implemented!");
             }
-            
+
+            case EVALUATION_INVALIDATE: {
+                Evaluation temp = (Evaluation) request.getArgument();
+                EvaluationController.invalidate(temp);
+                return 0;
+            }
+
             case EVALUATOR_GET: {
                 return EvaluatorController.getList();
             }

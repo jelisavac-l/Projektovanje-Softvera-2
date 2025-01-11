@@ -11,7 +11,7 @@ import java.util.List;
 public class EvaluationController {
 
     public static List<Evaluation> getList() throws SQLException {
-        String sql = "SELECT e.id, e.evaluationDate, e.conditions, e.athleteWeight, "
+        String sql = "SELECT e.id, e.evaluationDate, e.conditions, e.athleteWeight, e.valid, "
             + "evaluator.id AS evaluator_id, "
             + "athlete.id AS athlete_id "
             + "FROM Evaluations e "
@@ -30,6 +30,7 @@ public class EvaluationController {
             LocalDate evaluationDate = resultSet.getDate("evaluationDate").toLocalDate();
             String conditions = resultSet.getString("conditions");
             Double athleteWeight = resultSet.getDouble("athleteWeight");
+            Boolean valid = resultSet.getBoolean("valid");
 
             Long evaluatorId = resultSet.getLong("evaluator_id");
             Long athleteId = resultSet.getLong("athlete_id");
@@ -38,8 +39,8 @@ public class EvaluationController {
             Athlete athlete = AthleteController.getById(athleteId);
             Evaluation evaluation = new Evaluation(id, evaluationDate, conditions, athleteWeight, evaluator, athlete, null);
             List<EvaluationItem> items = EvaluationController.getItemsList(evaluation);
-
             evaluation.setItems(items);
+            evaluation.setValid(valid);
             evaluations.add(evaluation);
         }
 
@@ -185,6 +186,14 @@ public class EvaluationController {
             preparedStatement.close();
             // connection.close();
         }
+    }
+
+    public static void invalidate(Evaluation evaluation) throws SQLException {
+        String sql = "UPDATE Evaluations SET valid=0 WHERE id=?";
+        Connection conn = DatabaseConnection.getConnection();
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        preparedStatement.setLong(1, evaluation.getId());
+        preparedStatement.executeUpdate();
     }
 
 

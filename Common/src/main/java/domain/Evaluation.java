@@ -12,6 +12,8 @@ public class Evaluation extends ADomainClass implements Serializable {
     private Double athleteWeight;
     private Evaluator evaluator;
     private Athlete athlete;
+    private Boolean valid;
+
     private List<EvaluationItem> items;
 
     @Override
@@ -21,7 +23,7 @@ public class Evaluation extends ADomainClass implements Serializable {
 
     @Override
     public String getAttributeNames() {
-        return "id, evaluationDate, conditions, athleteWeight, evaluator, athlete";
+        return "id, evaluationDate, conditions, athleteWeight, evaluator, athlete, valid";
     }
 
     public Evaluation(Long id, LocalDate evaluationDate, String conditions, Double athleteWeight, Evaluator evaluator, Athlete athlete, List<EvaluationItem> items) {
@@ -88,5 +90,13 @@ public class Evaluation extends ADomainClass implements Serializable {
 
     public void setItems(List<EvaluationItem> items) {
         this.items = items;
+    }
+
+    public Boolean getValid() {
+        return valid;
+    }
+
+    public void setValid(Boolean valid) {
+        this.valid = valid;
     }
 }
