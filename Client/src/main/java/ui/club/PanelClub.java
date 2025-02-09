@@ -1,5 +1,8 @@
-package ui.evaluator;
+package ui.club;
 
+import client.Client;
+import domain.Club;
+import ui.evaluator.*;
 import domain.Evaluator;
 import java.util.List;
 import ui.models.EvaluatorTableModel;
@@ -8,12 +11,12 @@ import ui.models.EvaluatorTableModel;
  *
  * @author luka
  */
-public class PanelEvaluator extends javax.swing.JPanel {
+public class PanelClub extends javax.swing.JPanel {
 
     /**
      * Creates new form PanelEvaluator
      */
-    public PanelEvaluator() {
+    public PanelClub() {
         initComponents();
         this.setVisible(true);
         initTable();
@@ -81,6 +84,11 @@ public class PanelEvaluator extends javax.swing.JPanel {
         btnUpdate.setFocusable(false);
         btnUpdate.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnUpdate.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnUpdate);
         jToolBar1.add(jSeparator1);
 
@@ -150,14 +158,25 @@ public class PanelEvaluator extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // TODO add your handling code here:
-        new DialogNewEvaluator(null, true).setVisible(true);
+        new DialogNewClub(null, true).setVisible(true);
         initTable();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
 
     }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        int index = tblMainTable.getSelectedRow();
+        if(index < 0) {
+            Client.popupError("Greška: Nije odabran ni jedan klub.");
+            return;
+        }
+        ClubTableModel temp = (ClubTableModel) tblMainTable.getModel();
+        new DialogUpdateClub(null, true, temp.clubs.get(index)).setVisible(true);
+        initTable();
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -181,7 +200,7 @@ public class PanelEvaluator extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void initTable() {
-        List<Evaluator> evaluators = client.Client.getEvaluatorList();
-        tblMainTable.setModel(new EvaluatorTableModel(evaluators));
+        List<Club> clubs = client.Client.getClubList();
+        tblMainTable.setModel(new ClubTableModel(clubs));
     }
 }

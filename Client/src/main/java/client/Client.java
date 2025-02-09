@@ -7,6 +7,7 @@ import comm.*;
 import domain.*;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -125,6 +126,21 @@ public class Client {
         }
     }
     
+    public static void updateEvaluator(Evaluator e1, Evaluator e2) {
+        List<Evaluator> evaluators = new LinkedList<>();
+        evaluators.add(e1);
+        evaluators.add(e2);
+        try{
+            sender.send(new Request(Operation.EVALUATOR_UPDATE, evaluators));
+            Response response = (Response) receiver.receive();
+            if(response.getException() != null) throw response.getException();
+            else popupInfo("OK!");
+        } catch (Exception ex) {
+            popupError(ex.getMessage());
+            return;
+        } 
+    }
+    
     public static List<Athlete> getAthleteList() {
         try {
             sender.send(new Request(Operation.ATHLETE_GET, 1));
@@ -136,6 +152,45 @@ public class Client {
             return null;
         }
         
+    }
+
+    public static List<Club> getClubList() {
+        try {
+            sender.send(new Request(Operation.CLUB_GET, 1));
+            Response response = (Response) receiver.receive();
+            if(response.getException() != null) throw response.getException();
+            return (List<Club>) response.getResult();
+        } catch (Exception ex) {
+            popupError(ex.getMessage());
+            return null;
+        }
+    }
+    
+    public static void createClub(Club club) {
+        try{
+            sender.send(new Request(Operation.CLUB_NEW, club));
+            Response response = (Response) receiver.receive();
+            if(response.getException() != null) throw response.getException();
+            else popupInfo("OK!");
+        } catch (Exception ex) {
+            popupError(ex.getMessage());
+            return;
+        }
+    }
+    
+    public static void updateClub(Club c1, Club c2) {
+        List<Club> clubs = new LinkedList<>();
+        clubs.add(c1);
+        clubs.add(c2);
+        try{
+            sender.send(new Request(Operation.CLUB_UPDATE, clubs));
+            Response response = (Response) receiver.receive();
+            if(response.getException() != null) throw response.getException();
+            else popupInfo("OK!");
+        } catch (Exception ex) {
+            popupError(ex.getMessage());
+            return;
+        } 
     }
     
     

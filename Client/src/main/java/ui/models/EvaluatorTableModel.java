@@ -10,7 +10,7 @@ import javax.swing.table.AbstractTableModel;
  * @author luka
  */
 public class EvaluatorTableModel extends AbstractTableModel {
-
+    
     public List<Evaluator> evaluators;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd. MMMM. yyyy");
     private String[] columnNames = {"Ime", "Preizime", "Username", "Email", "Zvanje", "Roles", "Datum zaposlenja", "Aktivan"};
@@ -38,27 +38,34 @@ public class EvaluatorTableModel extends AbstractTableModel {
         Evaluator eval = evaluators.get(i); 
 
         switch (i1) {
-            case 0:
+            case 0 -> {
                 return eval.getFirstName();
-            case 1:
+            }
+            case 1 -> {
                 return eval.getLastName();
-            case 2:
+            }
+            case 2 -> {
                 return eval.getUsername();
-            case 3:
+            }
+            case 3 -> {
                 return eval.getEmail();
-            case 4:
+            }
+            case 4 -> {
                 return eval.getTitle();
-            case 5:
-                //  OVO NIKAKO!
-//                return client.Client.getEvaluatorRoles(eval);
-                return "/";
-            case 6:
+            }
+            case 5 -> {
+                return "NA";
+            }
+            case 6 -> {
                 return eval.getHireDate().format(formatter);
-            case 7:
+            }
+            case 7 -> {
                 if(eval.getActive()) return "DA";
                 else return "NE";
-            default:
+            }
+            default -> {
                 return null;
+            }
         }
     }
     

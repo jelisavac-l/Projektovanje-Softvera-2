@@ -9,6 +9,8 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import ui.athlete.PanelAthlete;
+import ui.club.PanelClub;
+import ui.settings.DialogSettings;
 
 /**
  *
@@ -38,6 +40,7 @@ public class FormMain extends javax.swing.JFrame {
         contentPane.add(panel);
         contentPane.revalidate();
         contentPane.repaint();
+        
     }
 
     /**
@@ -50,91 +53,141 @@ public class FormMain extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenuItem1 = new javax.swing.JMenuItem();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        mnEvaluation = new javax.swing.JMenu();
-        mnAthlete = new javax.swing.JMenu();
-        mnEvaluator = new javax.swing.JMenu();
-        mnClub = new javax.swing.JMenu();
-        jMenu7 = new javax.swing.JMenu();
-        mnSettings = new javax.swing.JMenu();
-        mnInfo = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        mnEvaluation.setText("Kontrole");
-        jMenuBar1.add(mnEvaluation);
+        jLabel1.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Sistem za praćenje fizičkih sposobnosti kajakaša");
+        getContentPane().add(jLabel1, java.awt.BorderLayout.CENTER);
 
-        mnAthlete.setText("Takmičari");
-        mnAthlete.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                mnAthleteMouseClicked(evt);
-            }
-        });
-        mnAthlete.addActionListener(new java.awt.event.ActionListener() {
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("(c) 2025. Luka Jelisavac 2022/0554 (FON)");
+        jLabel2.setMaximumSize(new java.awt.Dimension(249, 50));
+        jLabel2.setMinimumSize(new java.awt.Dimension(249, 50));
+        jLabel2.setPreferredSize(new java.awt.Dimension(249, 50));
+        getContentPane().add(jLabel2, java.awt.BorderLayout.PAGE_END);
+
+        jMenu1.setText("Kontrole");
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_K, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem2.setText("Kontrole");
+        jMenu1.add(jMenuItem2);
+
+        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem3.setText("Aktivnosti");
+        jMenu1.add(jMenuItem3);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Savez");
+
+        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem4.setText("Ocenjivači");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnAthleteActionPerformed(evt);
+                jMenuItem4ActionPerformed(evt);
             }
         });
-        jMenuBar1.add(mnAthlete);
+        jMenu2.add(jMenuItem4);
 
-        mnEvaluator.setText("Ocenjivači");
-        mnEvaluator.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                mnEvaluatorMouseClicked(evt);
-            }
-        });
-        mnEvaluator.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_K, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem5.setText("Klubovi");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnEvaluatorActionPerformed(evt);
+                jMenuItem5ActionPerformed(evt);
             }
         });
-        jMenuBar1.add(mnEvaluator);
+        jMenu2.add(jMenuItem5);
 
-        mnClub.setText("Klubovi");
-        jMenuBar1.add(mnClub);
+        jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem6.setText("Takmičari");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem6);
 
-        jMenu7.setText("Šifrarnici");
-        jMenuBar1.add(jMenu7);
+        jMenuItem9.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem9.setText("Pozicije");
+        jMenu2.add(jMenuItem9);
 
-        mnSettings.setText("Podešavanja");
-        jMenuBar1.add(mnSettings);
+        jMenuBar1.add(jMenu2);
 
-        mnInfo.setText("O programu");
-        jMenuBar1.add(mnInfo);
+        jMenu3.setText("Podešavanja");
+
+        jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_PERIOD, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem7.setText("Sistemska podešavanja");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem7);
+
+        jMenuItem8.setText("Moj profil");
+        jMenu3.add(jMenuItem8);
+
+        jMenuBar1.add(jMenu3);
 
         setJMenuBar(jMenuBar1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void mnEvaluatorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnEvaluatorMouseClicked
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
         swapPanel(new PanelEvaluator());
-    }//GEN-LAST:event_mnEvaluatorMouseClicked
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
-    private void mnEvaluatorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnEvaluatorActionPerformed
-        
-    }//GEN-LAST:event_mnEvaluatorActionPerformed
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+        swapPanel(new PanelAthlete());
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
-    private void mnAthleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnAthleteActionPerformed
-            // TODO add your handling code here:
-    }//GEN-LAST:event_mnAthleteActionPerformed
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        // TODO add your handling code here:
+        new DialogSettings(null, true).setVisible(true);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
 
-    private void mnAthleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnAthleteMouseClicked
-         swapPanel(new PanelAthlete());   
-    }//GEN-LAST:event_mnAthleteMouseClicked
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        swapPanel(new PanelClub());
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu7;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenu mnAthlete;
-    private javax.swing.JMenu mnClub;
-    private javax.swing.JMenu mnEvaluation;
-    private javax.swing.JMenu mnEvaluator;
-    private javax.swing.JMenu mnInfo;
-    private javax.swing.JMenu mnSettings;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     // End of variables declaration//GEN-END:variables
 }
