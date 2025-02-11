@@ -5,6 +5,7 @@ import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import comm.*;
 import domain.*;
+import io.github.cdimascio.dotenv.Dotenv;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.LinkedList;
@@ -16,16 +17,15 @@ import ui.FormLogIn;
 
 public class Client {
     
-    // Move to Properties
-    private static final String HOST = "127.0.0.1";
-    private static final int PORT = 5554;
     
     private static Socket socket;
     private static Sender sender;
     private static Receiver receiver;
+    public static Dotenv dotenv;
     
     public static void main(String[] args) {
         
+        dotenv = Dotenv.load();
         initConnection();
         initGui();
         
@@ -50,7 +50,7 @@ public class Client {
 
     private static void initConnection() {
         try {
-            socket = new Socket(HOST, PORT);
+            socket = new Socket(dotenv.get("SERVER_IP"), Integer.parseInt(dotenv.get("SERVER_PORT")));
             sender = new Sender(socket);
             receiver = new Receiver(socket);
         } catch (IOException ex) {

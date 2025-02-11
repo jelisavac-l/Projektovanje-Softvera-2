@@ -1,5 +1,7 @@
 package ui.settings;
 
+import client.Client;
+
 /**
  *
  * @author luka
@@ -11,6 +13,8 @@ public class PanelSettingsENV extends javax.swing.JPanel {
      */
     public PanelSettingsENV() {
         initComponents();
+        txtServerAddress.setText(Client.dotenv.get("SERVER_IP"));
+        txtPort.setText(Client.dotenv.get("SERVER_PORT"));
         jLabel1.setText("<html><b>PAŽNJA!</b><br>Unošenje neispravnih podataka će onemogućiti konekciju sa serverom!<br>"
                 + "Proverite ispravnost podataka pre potvrde.</html>");
 
