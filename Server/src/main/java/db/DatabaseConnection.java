@@ -1,25 +1,25 @@
 package db;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
 
-    // Move to properties
-    private static final String DB = "jdbc:mysql://localhost:3306/ProjektovanjeSoftvera2";
-    private static final String USER = "root";
-    private static final String PASS = "";
-
     private static Connection conn;
 
     private DatabaseConnection() {
-
+        
     }
 
     public static Connection getConnection() throws SQLException {
+        Dotenv dotenv = Dotenv.load();
+        System.out.println(dotenv.get("DB_URL") + " " + dotenv.get("DB_USER"));
         if(conn == null || conn.isClosed()) {
-            conn = DriverManager.getConnection(DB, USER, PASS);
+            conn = DriverManager.getConnection(dotenv.get("DB_URL"), 
+                    dotenv.get("DB_USER"),
+                    dotenv.get("DB_PASS"));
         }
 
         return conn;

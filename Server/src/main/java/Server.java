@@ -6,7 +6,7 @@ import java.net.Socket;
 public class Server {
 
     private static final int PORT = 5554;
-    private static final String MAIN_SYM = "~~~# ";
+    private static final String MAIN_SYM = "[SERVER]\t";
 
     public static void main(String[] args) {
         System.out.println(MAIN_SYM + "Projektovanje Softvera 2.0 SERVER");
@@ -14,10 +14,11 @@ public class Server {
 
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             System.out.println(MAIN_SYM +"Serving on 127.0.0.1:" + PORT);    // 2022-0554 :)
-
+            System.out.println(MAIN_SYM + "Current number of threads: " + Thread.activeCount());
             while(true) {
                 Socket socket = serverSocket.accept();
                 System.out.println(MAIN_SYM + "Accepting a new connection from: " + socket.getInetAddress());
+                System.out.println(MAIN_SYM + "Current number of threads: " + (Thread.activeCount() + 1));
                 new ClientHandler(socket).start();
             }
 

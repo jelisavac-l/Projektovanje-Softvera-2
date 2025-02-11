@@ -21,7 +21,7 @@ public class ClientHandler extends Thread{
     }
 
     private void threadPrint(String msg) {
-        System.out.println("[ Th: " + this.getId() + " ] " + msg);
+        System.out.println("[THREAD " + this.getId() + "]\t" + msg);
     }
 
     @Override
