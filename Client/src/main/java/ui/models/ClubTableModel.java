@@ -1,7 +1,9 @@
-package ui.club;
+package ui.models;
 
+import client.Client;
 import domain.Club;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
@@ -11,8 +13,9 @@ import javax.swing.table.TableModel;
  */
 public class ClubTableModel extends AbstractTableModel {
 
-    private final String[] columnNames = {"Name", "Address"};
+    private final String[] columnNames = {"Naziv", "Adresa"};
     public List<Club> clubs;
+    public List<Club> filteredClubs;
 
     public ClubTableModel(List<Club> clubs) {
         this.clubs = clubs;
@@ -36,6 +39,7 @@ public class ClubTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Club club = clubs.get(rowIndex);
+        
         switch (columnIndex) {
             case 0:
                 return club.getName();
@@ -45,5 +49,6 @@ public class ClubTableModel extends AbstractTableModel {
                 return null;
         }
     }
+    
     
 }

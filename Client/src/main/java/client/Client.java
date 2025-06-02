@@ -174,7 +174,6 @@ public class Client {
             else popupInfo("OK!");
         } catch (Exception ex) {
             popupError(ex.getMessage());
-            return;
         }
     }
     
@@ -189,9 +188,58 @@ public class Client {
             else popupInfo("OK!");
         } catch (Exception ex) {
             popupError(ex.getMessage());
-            return;
         } 
     }
+    
+    public static List<Activity> getActivityList() {
+        try {
+            sender.send(new Request(Operation.ACTIVITY_GET, 1));
+            Response response = (Response) receiver.receive();
+            if(response.getException() != null) throw response.getException();
+            return (List<Activity>) response.getResult();
+        } catch (Exception ex) {
+            popupError(ex.getMessage());
+            return null;
+        }
+    }
+    
+    public static void createActivity(Activity activity) {
+        try{
+            sender.send(new Request(Operation.ACTIVITY_NEW, activity));
+            Response response = (Response) receiver.receive();
+            if(response.getException() != null) throw response.getException();
+            else popupInfo("OK!");
+        } catch (Exception ex) {
+            popupError(ex.getMessage());
+        }
+    }
+    
+    public static void updateActivity(Activity oldActivity, Activity newActivity) {
+        List<Activity> activities = new LinkedList<>();
+        activities.add(oldActivity);
+        activities.add(newActivity);
+        try{
+            sender.send(new Request(Operation.ACTIVITY_UPDATE, activities));
+            Response response = (Response) receiver.receive();
+            if(response.getException() != null) throw response.getException();
+            else popupInfo("OK!");
+        } catch (Exception ex) {
+            popupError(ex.getMessage());
+        }
+    }
+    
+    public static void deleteActivity(Activity activity) {
+        try {
+            sender.send(new Request(Operation.ACTIVITY_DELETE, activity));
+            Response response = (Response) receiver.receive();
+            if(response.getException() != null) throw response.getException();
+            else popupInfo("OK!");
+        } catch (Exception ex) {
+            popupError(ex.getMessage());
+        }
+    }
+    
+    
     
     
 }

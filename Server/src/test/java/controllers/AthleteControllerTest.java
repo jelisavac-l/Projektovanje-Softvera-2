@@ -47,7 +47,9 @@ class AthleteControllerTest {
     @Test
     void getById() {
         try {
-            Athlete athlete = AthleteController.getById(220L);
+            Athlete athlete = AthleteController.getById(120L);
+            System.out.println(athlete);
+            assertNotNull(athlete);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

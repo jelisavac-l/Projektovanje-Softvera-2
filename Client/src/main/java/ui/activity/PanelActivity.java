@@ -1,23 +1,26 @@
-package ui.club;
+package ui.activity;
 
-import ui.models.ClubTableModel;
+import ui.athlete.*;
 import client.Client;
-import domain.Club;
+import domain.Activity;
+import domain.Athlete;
 import ui.evaluator.*;
 import domain.Evaluator;
 import java.util.List;
+import ui.models.ActivityTableModel;
+import ui.models.AthleteTableModel;
 import ui.models.EvaluatorTableModel;
 
 /**
  *
  * @author luka
  */
-public class PanelClub extends javax.swing.JPanel {
+public class PanelActivity extends javax.swing.JPanel {
 
     /**
      * Creates new form PanelEvaluator
      */
-    public PanelClub() {
+    public PanelActivity() {
         initComponents();
         this.setVisible(true);
         initTable();
@@ -42,11 +45,11 @@ public class PanelClub extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JToolBar.Separator();
         btnSearch = new javax.swing.JButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(3, 0), new java.awt.Dimension(3, 0), new java.awt.Dimension(3, 0));
-        txtSearch = new javax.swing.JTextField();
+        jTextField1 = new javax.swing.JTextField();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(3, 0), new java.awt.Dimension(3, 0), new java.awt.Dimension(3, 0));
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
-        btnClearSearch = new javax.swing.JButton();
+        jRadioButton3 = new javax.swing.JRadioButton();
         MainPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblMainTable = new javax.swing.JTable();
@@ -85,11 +88,6 @@ public class PanelClub extends javax.swing.JPanel {
         btnUpdate.setFocusable(false);
         btnUpdate.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnUpdate.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateActionPerformed(evt);
-            }
-        });
         jToolBar1.add(btnUpdate);
         jToolBar1.add(jSeparator1);
 
@@ -97,44 +95,34 @@ public class PanelClub extends javax.swing.JPanel {
         btnSearch.setFocusable(false);
         btnSearch.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnSearch.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearchActionPerformed(evt);
-            }
-        });
         jToolBar1.add(btnSearch);
         jToolBar1.add(filler1);
 
-        txtSearch.setMaximumSize(new java.awt.Dimension(2147483647, 28));
-        jToolBar1.add(txtSearch);
+        jTextField1.setMaximumSize(new java.awt.Dimension(2147483647, 28));
+        jToolBar1.add(jTextField1);
         jToolBar1.add(filler2);
 
         buttonGroup1.add(jRadioButton1);
         jRadioButton1.setSelected(true);
-        jRadioButton1.setText("prema nazivu");
+        jRadioButton1.setText("prema imenu");
         jRadioButton1.setFocusable(false);
         jRadioButton1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         jRadioButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(jRadioButton1);
 
         buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("prema adresi");
+        jRadioButton2.setText("prema prezimenu");
         jRadioButton2.setFocusable(false);
         jRadioButton2.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         jRadioButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(jRadioButton2);
 
-        btnClearSearch.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
-        btnClearSearch.setText("Poništi pretragu");
-        btnClearSearch.setFocusable(false);
-        btnClearSearch.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnClearSearch.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnClearSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClearSearchActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(btnClearSearch);
+        buttonGroup1.add(jRadioButton3);
+        jRadioButton3.setText("prema klubu");
+        jRadioButton3.setFocusable(false);
+        jRadioButton3.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jRadioButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(jRadioButton3);
 
         add(jToolBar1);
 
@@ -164,35 +152,14 @@ public class PanelClub extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        new DialogNewClub(null, true).setVisible(true);
+        // TODO add your handling code here:
         initTable();
     }//GEN-LAST:event_btnAddActionPerformed
-
-    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-
-    }//GEN-LAST:event_btnSearchActionPerformed
-
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
-        int index = tblMainTable.getSelectedRow();
-        if(index < 0) {
-            Client.popupError("Greška: Nije odabran ni jedan klub.");
-            return;
-        }
-        ClubTableModel temp = (ClubTableModel) tblMainTable.getModel();
-        new DialogUpdateClub(null, true, temp.clubs.get(index)).setVisible(true);
-        initTable();
-    }//GEN-LAST:event_btnUpdateActionPerformed
-
-    private void btnClearSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearSearchActionPerformed
-         initTable();
-    }//GEN-LAST:event_btnClearSearchActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel MainPanel;
     private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnClearSearch;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
@@ -201,22 +168,17 @@ public class PanelClub extends javax.swing.JPanel {
     private javax.swing.Box.Filler filler2;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JTable tblMainTable;
-    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 
-    // TODO: Inject clubs/filtered clubs here
     private void initTable() {
-        List<Club> clubs = client.Client.getClubList();
-        tblMainTable.setModel(new ClubTableModel(clubs));
+        List<Activity> activities = Client.getActivityList();
+        tblMainTable.setModel(new ActivityTableModel(activities));
     }
-    
-    private void filterTable() {
-        
-    }
-    
 }
