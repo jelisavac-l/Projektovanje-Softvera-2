@@ -1,24 +1,15 @@
 package domain;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-public class EvaluationItem extends ADomainClass implements Serializable {
+public class EvaluationItem implements DomainObject {
 
     private Evaluation evaluation;
     private Integer serial;
     private Long result;
     private Activity activity;
-
-
-    @Override
-    public String getDBClassName() {
-        return "EvaluationItems";
-    }
-
-    @Override
-    public String getAttributeNames() {
-        return "evaluation, serial, result, activity";
-    }
 
     public EvaluationItem(Evaluation evaluation, Integer serial, Long result, Activity activity) {
         this.evaluation = evaluation;
@@ -58,4 +49,74 @@ public class EvaluationItem extends ADomainClass implements Serializable {
     public void setActivity(Activity activity) {
         this.activity = activity;
     }
+
+    @Override
+    public String getAttributeValuesForInsert() {
+        return "'" + evaluation + "', " + serial + ", '" + result + "', " + activity.getId();
+    }
+
+    @Override
+    public String getUpdatedAttributeValues() {
+        return "evaluation='" + evaluation + "', serial=" + serial +
+            ", result='" + result + "', activity=" + activity.getId();
+    }
+
+    @Override
+    public String getColumnNames() {
+        return "evaluation, serial, result, activityId";
+    }
+
+    @Override
+    public String getTableName() {
+        return "EvaluationItems";
+    }
+
+    @Override
+    public String getWhereCondition() {
+        return "evaluation = " + evaluation.getId() + " AND serial = " + serial;
+    }
+
+    @Override
+    public DomainObject getNewRecord(ResultSet rs) throws SQLException {
+        return new EvaluationItem(
+            new Evaluation(
+                rs.getLong("el.id"),
+                rs.getObject("el.evaluationDate", java.time.LocalDate.class),
+                rs.getString("el.conditions"),
+                rs.getDouble("el.athleteWeight"),
+                null,
+                null,
+                null
+            ),
+            rs.getInt(getAlias() + ".serial"),
+            rs.getLong(getAlias() + ".result"),
+            new Activity(
+                rs.getLong("a.id"),
+                rs.getString("a.name"),
+                rs.getString("a.unit")
+            )
+        );
+    }
+
+    @Override
+    public String getPrimaryKey() {
+        return "evaluation = " + evaluation.getId() + " AND serial = " + serial;
+    }
+
+    @Override
+    public String getJoinClause() {
+        return "JOIN a ON a.id=ei.activity JOIN Evaluation el ON el.id=ei.evaluation";
+    }
+
+    @Override
+    public String getAlias() {
+        return "ei";
+    }
+
+    @Override
+    public String getColumnNameByIndex(int i) {
+        String[] cols = {"evaluation", "serial", "result", "activity"};
+        return cols[i];
+    }
+
 }

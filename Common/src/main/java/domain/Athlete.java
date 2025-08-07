@@ -1,9 +1,11 @@
 package domain;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
-public class Athlete extends ADomainClass implements Serializable {
+public class Athlete implements DomainObject {
 
     private Long id;
     private String firstName;
@@ -25,15 +27,6 @@ public class Athlete extends ADomainClass implements Serializable {
         this.club = club;
     }
 
-    @Override
-    public String getDBClassName() {
-        return "Athletes";
-    }
-
-    @Override
-    public String getAttributeNames() {
-        return "id, firstName, lastName, birthday, gender, height, currentWeight, club";
-    }
 
     public Long getId() {
         return id;
@@ -103,5 +96,77 @@ public class Athlete extends ADomainClass implements Serializable {
     @Override
     public String toString() {
         return firstName + " " + lastName + " (" + club + ")";
+    }
+
+    @Override
+    public String getAttributeValuesForInsert() {
+        return "'" + this.firstName + "', '" +
+            this.lastName + "', '" +
+            this.birthday + "', " +
+            this.gender + ", " +
+            this.height + ", " +
+            this.currentWeight + ", " +
+            this.club.getId();
+    }
+
+    @Override
+    public String getUpdatedAttributeValues() {
+        return "firstName='" + firstName + "', " +
+            "lastName='" + lastName + "', " +
+            "birthday='" + birthday + "', " +
+            "gender=" + gender + ", " +
+            "height=" + height + ", " +
+            "currentWeight=" + currentWeight + ", " +
+            "club=" + club.getId();
+    }
+
+    @Override
+    public String getColumnNames() {
+        return "firstName, lastName, birthday, gender, height, currentWeight, club";
+    }
+
+    @Override
+    public String getTableName() {
+        return "Athletes";
+    }
+
+    @Override
+    public String getWhereCondition() {
+        return "";
+    }
+
+    @Override
+    public DomainObject getNewRecord(ResultSet rs) throws SQLException {
+        return new Athlete(
+            rs.getLong(1),
+            rs.getString(2),
+            rs.getString(3),
+            rs.getObject(4, java.time.LocalDate.class),
+            rs.getBoolean(5),
+            rs.getInt(6),
+            rs.getDouble(7),
+            new Club(rs.getLong(8), rs.getString(9), rs.getString(10))
+        );
+    }
+
+    @Override
+    public String getPrimaryKey() {
+        return "id=" + id;
+    }
+
+    @Override
+    public String getJoinClause() {
+        return "JOIN Clubs c ON c.id=a.club";
+    }
+
+    @Override
+    public String getAlias() {
+        return "al";
+    }
+
+    @Override
+    public String getColumnNameByIndex(int i) {
+        String[] cols = {"id", "firstName", "lastName", "birthday", "gender", "height", "currentWeight", "club"};
+        return cols[i];
     }
 }

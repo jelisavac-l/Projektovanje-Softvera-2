@@ -1,24 +1,16 @@
 package domain;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
-public class ER extends ADomainClass implements Serializable {
+public class ER implements DomainObject {
 
     private Evaluator evaluator;
     private Role role;
     private LocalDate startDate;
     private LocalDate endDate;
-
-    @Override
-    public String getDBClassName() {
-        return "ER";
-    }
-
-    @Override
-    public String getAttributeNames() {
-        return "evaluator, role, startDate, endDate";
-    }
 
     public ER(Evaluator evaluator, Role role, LocalDate startDate, LocalDate endDate) {
         this.evaluator = evaluator;
@@ -58,4 +50,75 @@ public class ER extends ADomainClass implements Serializable {
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
+
+    @Override
+    public String getAttributeValuesForInsert() {
+        return evaluator.getId() + ", " + role.getId() + ", '" + startDate + "', '" + endDate + "'";
+    }
+
+    @Override
+    public String getUpdatedAttributeValues() {
+        return "evaluator=" + evaluator.getId() + ", role=" + role.getId() +
+            ", startDate='" + startDate + "', endDate='" + endDate + "'";
+    }
+
+    @Override
+    public String getColumnNames() {
+        return "evaluator, role, startDate, endDate";
+    }
+
+    @Override
+    public String getTableName() {
+        return "ER";
+    }
+
+    @Override
+    public String getWhereCondition() {
+        return "";
+    }
+
+    @Override
+    public DomainObject getNewRecord(ResultSet rs) throws SQLException {
+        return new ER(
+            new Evaluator(
+                rs.getLong("er.id"),
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+            ),
+            new Role(
+                rs.getLong("r.id"),
+                null
+                ),
+            rs.getObject("asoc.startDate", java.time.LocalDate.class),
+            rs.getObject("asoc.endDate", java.time.LocalDate.class)
+        );
+    }
+
+    @Override
+    public String getPrimaryKey() {
+        return "";
+    }
+
+    @Override
+    public String getJoinClause() {
+        return "JOIN";
+    }
+
+    @Override
+    public String getAlias() {
+        return "asoc";
+    }
+
+    @Override
+    public String getColumnNameByIndex(int i) {
+        String[] cols = {"evaluator", "role", "startDate", "endDate"};
+        return cols[i];
+    }
+
 }

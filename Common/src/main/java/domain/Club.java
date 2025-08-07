@@ -1,22 +1,14 @@
 package domain;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-public class Club extends ADomainClass implements Serializable {
+public class Club implements DomainObject {
 
     private Long id;
     private String name;
     private String address;
-
-    @Override
-    public String getDBClassName() {
-        return "Clubs";
-    }
-
-    @Override
-    public String getAttributeNames() {
-        return "id, name, address";
-    }
 
     public Club(Long id, String name, String address) {
         this.id = id;
@@ -52,4 +44,60 @@ public class Club extends ADomainClass implements Serializable {
     public String toString() {
         return name;
     }
+
+    @Override
+    public String getAttributeValuesForInsert() {
+        return "'" + name + "', '" + address + "'";
+    }
+
+    @Override
+    public String getUpdatedAttributeValues() {
+        return "name='" + name + "', address='" + address + "'";
+    }
+
+    @Override
+    public String getColumnNames() {
+        return "name, address";
+    }
+
+    @Override
+    public String getTableName() {
+        return "Clubs";
+    }
+
+    @Override
+    public String getWhereCondition() {
+        return "id=" + id;
+    }
+
+    @Override
+    public DomainObject getNewRecord(ResultSet rs) throws SQLException {
+        return new Club(
+            rs.getLong(1),   // id
+            rs.getString(2), // name
+            rs.getString(3)  // address
+        );
+    }
+
+    @Override
+    public String getPrimaryKey() {
+        return "id=" + id;
+    }
+
+    @Override
+    public String getJoinClause() {
+        return "";
+    }
+
+    @Override
+    public String getAlias() {
+        return "c";
+    }
+
+    @Override
+    public String getColumnNameByIndex(int i) {
+        String[] cols = {"id", "name", "address"};
+        return cols[i];
+    }
+
 }

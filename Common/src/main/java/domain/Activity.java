@@ -1,22 +1,14 @@
 package domain;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-public class Activity extends ADomainClass implements Serializable {
+public class Activity implements DomainObject {
 
     private Long id;
     private String name;
     private String unit;
-
-    @Override
-    public String getDBClassName() {
-        return "Activities";
-    }
-
-    @Override
-    public String getAttributeNames() {
-        return "id, name, unit";
-    }
 
     public Activity(Long id, String name, String unit) {
         this.id = id;
@@ -51,6 +43,65 @@ public class Activity extends ADomainClass implements Serializable {
     @Override
     public String toString() {
         return name + " (" + unit + ")";
+    }
 
+    @Override
+    public String getAttributeValuesForInsert() {
+        return "'" + this.name + "', '" + this.unit + "'";
+    }
+
+    @Override
+    public String getUpdatedAttributeValues() {
+        return "name='" + name + "', unit='" + unit + "'";
+    }
+
+    @Override
+    public String getColumnNames() {
+        return "name, unit";
+    }
+
+    @Override
+    public String getTableName() {
+        return "Activities";
+    }
+
+    @Override
+    public String getWhereCondition() {
+        return "id =" + id;
+    }
+
+    @Override
+    public DomainObject getNewRecord(ResultSet rs) throws SQLException {
+        return new Activity(rs.getLong(1), rs.getString(2), rs.getString(3));
+    }
+
+    @Override
+    public String getPrimaryKey() {
+        throw new UnsupportedOperationException("Not implemented yet!");
+    }
+
+    @Override
+    public String getJoinClause() {
+        return "";
+    }
+
+    @Override
+    public String getAlias() {
+        return "ac";
+    }
+
+    @Override
+    public String getColumnNameByIndex(int i) {
+        String[] cols = {
+            "id",
+            "firstName",
+            "lastName",
+            "birthday",
+            "gender",
+            "height",
+            "currentWeight",
+            "club"
+        };
+        return cols[i];
     }
 }

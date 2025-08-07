@@ -1,21 +1,13 @@
 package domain;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-public class Role extends ADomainClass implements Serializable {
+public class Role implements DomainObject {
 
     private Long id;
     private String name;
-
-    @Override
-    public String getDBClassName() {
-        return "Roles";
-    }
-
-    @Override
-    public String getAttributeNames() {
-        return "id, name";
-    }
 
     public Role(Long id, String name) {
         this.id = id;
@@ -42,4 +34,59 @@ public class Role extends ADomainClass implements Serializable {
     public String toString() {
         return name;
     }
+
+    @Override
+    public String getAttributeValuesForInsert() {
+        return "'" + name + "'";
+    }
+
+    @Override
+    public String getUpdatedAttributeValues() {
+        return "name='" + name + "'";
+    }
+
+    @Override
+    public String getColumnNames() {
+        return "name";
+    }
+
+    @Override
+    public String getTableName() {
+        return "Roles";
+    }
+
+    @Override
+    public String getWhereCondition() {
+        return "id=" + id;
+    }
+
+    @Override
+    public DomainObject getNewRecord(ResultSet rs) throws SQLException {
+        return new Role(
+            rs.getLong(1),
+            rs.getString(2)
+        );
+    }
+
+    @Override
+    public String getPrimaryKey() {
+        return "id=" + id;
+    }
+
+    @Override
+    public String getJoinClause() {
+        return "";
+    }
+
+    @Override
+    public String getAlias() {
+        return "r";
+    }
+
+    @Override
+    public String getColumnNameByIndex(int i) {
+        String[] cols = {"id", "name"};
+        return cols[i];
+    }
+
 }

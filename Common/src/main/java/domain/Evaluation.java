@@ -1,10 +1,12 @@
 package domain;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
-public class Evaluation extends ADomainClass implements Serializable {
+public class Evaluation implements DomainObject {
 
     private Long id;
     private LocalDate evaluationDate;
@@ -16,16 +18,6 @@ public class Evaluation extends ADomainClass implements Serializable {
 
     private List<EvaluationItem> items;
 
-    @Override
-    public String getDBClassName() {
-        return "Evaluations";
-    }
-
-    @Override
-    public String getAttributeNames() {
-        return "id, evaluationDate, conditions, athleteWeight, evaluator, athlete, valid";
-    }
-
     public Evaluation(Long id, LocalDate evaluationDate, String conditions, Double athleteWeight, Evaluator evaluator, Athlete athlete, List<EvaluationItem> items) {
         this.id = id;
         this.evaluationDate = evaluationDate;
@@ -34,6 +26,17 @@ public class Evaluation extends ADomainClass implements Serializable {
         this.evaluator = evaluator;
         this.athlete = athlete;
         this.items = items;
+    }
+
+    public Evaluation(Long id, LocalDate evaluationDate, String conditions, Double athleteWeight, Evaluator evaluator, Athlete athlete, List<EvaluationItem> items, Boolean valid) {
+        this.id = id;
+        this.evaluationDate = evaluationDate;
+        this.conditions = conditions;
+        this.athleteWeight = athleteWeight;
+        this.evaluator = evaluator;
+        this.athlete = athlete;
+        this.items = items;
+        this.valid = valid;
     }
 
     public Long getId() {
@@ -99,4 +102,85 @@ public class Evaluation extends ADomainClass implements Serializable {
     public void setValid(Boolean valid) {
         this.valid = valid;
     }
+
+    @Override
+    public String getAttributeValuesForInsert() {
+        return "'" + evaluationDate + "', '" + conditions + "', " + athleteWeight + ", " +
+            evaluator.getId() + ", " + athlete.getId() + ", " + valid;
+    }
+
+    @Override
+    public String getUpdatedAttributeValues() {
+        return "evaluationDate='" + evaluationDate + "', conditions='" + conditions +
+            "', athleteWeight=" + athleteWeight + ", evaluator=" + evaluator.getId() +
+            ", athlete=" + athlete.getId() + ", valid=" + valid;
+    }
+
+    @Override
+    public String getColumnNames() {
+        return "evaluationDate, conditions, athleteWeight, evaluator, athlete, valid";
+    }
+
+    @Override
+    public String getTableName() {
+        return "Evaluations";
+    }
+
+    @Override
+    public String getWhereCondition() {
+        return "id=" + id;
+    }
+
+    @Override
+    public DomainObject getNewRecord(ResultSet rs) throws SQLException {
+        return new Evaluation(
+            rs.getLong("el.id"),
+            rs.getObject("el.evaluationDate", java.time.LocalDate.class),
+            rs.getString("el.conditions"),
+            rs.getDouble("el.athleteWeight"),
+            new Evaluator(
+                rs.getLong("er.id"),
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null),
+            new Athlete(
+                rs.getLong("al.id"),
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null),
+            null,
+            rs.getBoolean("el.valid")
+        );
+    }
+
+    @Override
+    public String getPrimaryKey() {
+        return "id=" + id;
+    }
+
+    @Override
+    public String getJoinClause() {
+        return "JOIN Athletes al ON al.id = el.athlete JOIN Evaluators er ON er.id=el.evaluator";
+    }
+
+    @Override
+    public String getAlias() {
+        return "el";
+    }
+
+    @Override
+    public String getColumnNameByIndex(int i) {
+        String[] cols = {"id", "evaluationDate", "conditions", "athleteWeight", "evaluator", "athlete", "valid"};
+        return cols[i];
+    }
+
 }
