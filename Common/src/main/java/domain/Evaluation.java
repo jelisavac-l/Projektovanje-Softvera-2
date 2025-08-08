@@ -134,12 +134,12 @@ public class Evaluation implements DomainObject {
     @Override
     public DomainObject getNewRecord(ResultSet rs) throws SQLException {
         return new Evaluation(
-            rs.getLong("el.id"),
-            rs.getObject("el.evaluationDate", java.time.LocalDate.class),
-            rs.getString("el.conditions"),
-            rs.getDouble("el.athleteWeight"),
+            rs.getLong(this.getAlias() + ".id"),
+            rs.getObject(this.getAlias() + ".evaluationDate", java.time.LocalDate.class),
+            rs.getString(this.getAlias() + ".conditions"),
+            rs.getDouble(this.getAlias() + ".athleteWeight"),
             new Evaluator(
-                rs.getLong("er.id"),
+                rs.getLong(this.evaluator.getAlias() + ".id"),
                 null,
                 null,
                 null,
@@ -149,7 +149,7 @@ public class Evaluation implements DomainObject {
                 null,
                 null),
             new Athlete(
-                rs.getLong("al.id"),
+                rs.getLong(this.athlete.getAlias() + ".id"),
                 null,
                 null,
                 null,
@@ -158,7 +158,7 @@ public class Evaluation implements DomainObject {
                 null,
                 null),
             null,
-            rs.getBoolean("el.valid")
+            rs.getBoolean(this.getAlias() + ".valid")
         );
     }
 
@@ -169,7 +169,23 @@ public class Evaluation implements DomainObject {
 
     @Override
     public String getJoinClause() {
-        return "JOIN Athletes al ON al.id = el.athlete JOIN Evaluators er ON er.id=el.evaluator";
+        return "JOIN " +
+            this.athlete.getTableName() +
+            " " +
+            this.athlete.getAlias() +
+            " ON " +
+            this.athlete.getAlias() +
+            ".id = " +
+            this.getAlias() +
+            ".athlete JOIN " +
+            this.evaluator.getTableName() +
+            " " +
+            this.evaluator.getAlias() +
+            " ON " +
+            this.evaluator.getAlias() +
+            ".id=" +
+            this.getAlias() +
+            ".evaluator";
     }
 
     @Override

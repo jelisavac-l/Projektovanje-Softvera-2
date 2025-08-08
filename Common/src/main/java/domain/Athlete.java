@@ -132,7 +132,7 @@ public class Athlete implements DomainObject {
 
     @Override
     public String getWhereCondition() {
-        return "";
+        return "id=" + id;
     }
 
     @Override
@@ -156,7 +156,15 @@ public class Athlete implements DomainObject {
 
     @Override
     public String getJoinClause() {
-        return "JOIN Clubs c ON c.id=a.club";
+        return "JOIN " +
+            this.club.getTableName() +
+            " " +
+            this.club.getAlias() +
+            " ON " +
+            this.club.getAlias() +
+            ".id=" +
+            this.getAlias() +
+            ".club";
     }
 
     @Override

@@ -80,10 +80,10 @@ public class EvaluationItem implements DomainObject {
     public DomainObject getNewRecord(ResultSet rs) throws SQLException {
         return new EvaluationItem(
             new Evaluation(
-                rs.getLong("el.id"),
-                rs.getObject("el.evaluationDate", java.time.LocalDate.class),
-                rs.getString("el.conditions"),
-                rs.getDouble("el.athleteWeight"),
+                rs.getLong(this.evaluation.getAlias() + ".id"),
+                rs.getObject(this.evaluation.getAlias() + ".evaluationDate", java.time.LocalDate.class),
+                rs.getString(this.evaluation.getAlias() + ".conditions"),
+                rs.getDouble(this.evaluation.getAlias() + ".athleteWeight"),
                 null,
                 null,
                 null
@@ -91,12 +91,13 @@ public class EvaluationItem implements DomainObject {
             rs.getInt(getAlias() + ".serial"),
             rs.getLong(getAlias() + ".result"),
             new Activity(
-                rs.getLong("a.id"),
-                rs.getString("a.name"),
-                rs.getString("a.unit")
+                rs.getLong(this.activity.getAlias() + ".id"),
+                rs.getString(this.activity.getAlias() + ".name"),
+                rs.getString(this.activity.getAlias() + ".unit")
             )
         );
     }
+
 
     @Override
     public String getPrimaryKey() {
@@ -105,8 +106,26 @@ public class EvaluationItem implements DomainObject {
 
     @Override
     public String getJoinClause() {
-        return "JOIN a ON a.id=ei.activity JOIN Evaluation el ON el.id=ei.evaluation";
+        return "JOIN " +
+            this.activity.getTableName() +
+            " " +
+            this.activity.getAlias() +
+            " ON " +
+            this.activity.getAlias() +
+            ".id = " +
+            this.getAlias() +
+            ".activity " +
+            "JOIN " +
+            this.evaluation.getTableName() +
+            " " +
+            this.evaluation.getAlias() +
+            " ON " +
+            this.evaluation.getAlias() +
+            ".id = " +
+            this.getAlias() +
+            ".evaluation";
     }
+
 
     @Override
     public String getAlias() {

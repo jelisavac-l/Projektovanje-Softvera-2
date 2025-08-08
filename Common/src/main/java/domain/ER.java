@@ -74,14 +74,14 @@ public class ER implements DomainObject {
 
     @Override
     public String getWhereCondition() {
-        return "";
+        return "evaluator = " + this.evaluator + " AND role = " + this.role + " AND startDate = " + this.startDate;
     }
 
     @Override
     public DomainObject getNewRecord(ResultSet rs) throws SQLException {
         return new ER(
             new Evaluator(
-                rs.getLong("er.id"),
+                rs.getLong(this.evaluator.getAlias() + ".id"),
                 null,
                 null,
                 null,
@@ -92,22 +92,38 @@ public class ER implements DomainObject {
                 null
             ),
             new Role(
-                rs.getLong("r.id"),
+                rs.getLong(this.role.getAlias() + ".id"),
                 null
-                ),
-            rs.getObject("asoc.startDate", java.time.LocalDate.class),
-            rs.getObject("asoc.endDate", java.time.LocalDate.class)
+            ),
+            rs.getObject(this.getAlias() + ".startDate", java.time.LocalDate.class),
+            rs.getObject(this.getAlias() + ".endDate", java.time.LocalDate.class)
         );
     }
 
     @Override
     public String getPrimaryKey() {
-        return "";
+        return "evaluator = " + this.evaluator + " AND role = " + this.role + " AND startDate = " + this.startDate;
     }
 
     @Override
     public String getJoinClause() {
-        return "JOIN";
+        return "JOIN " +
+            this.evaluator.getTableName() +
+            " " +
+            this.evaluator.getAlias() +
+            " ON " +
+            this.evaluator.getAlias() +
+            ".id=" +
+            this.getAlias() +
+            ".evaluator JOIN " +
+            this.role.getTableName() +
+            " " +
+            this.role.getAlias() +
+            " ON " +
+            this.role.getAlias() +
+            ".id=" +
+            this.getAlias() +
+            ".role";
     }
 
     @Override
