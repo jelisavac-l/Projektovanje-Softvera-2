@@ -10,19 +10,27 @@ import java.util.List;
 public class MySQLDatabaseBroker implements DatabaseBroker {
     private final String databaseName;
     private Connection connection;
+    private static MySQLDatabaseBroker instance;
     private final Dotenv dotenv = Dotenv.load();
 
-    public MySQLDatabaseBroker(String databaseName) {
-        this.databaseName = databaseName;
+    private MySQLDatabaseBroker() {
+        this.databaseName = dotenv.get("MYSQL_DB");
+    }
+
+    public static MySQLDatabaseBroker getInstance() {
+        if(instance == null) {
+            instance = new MySQLDatabaseBroker();
+        }
+        return instance;
     }
 
     @Override
     public boolean createConnection() {
-        String url;
         try {
+            if(connection != null && !connection.isClosed()) return true;
+            String url;
             url = "jdbc:mysql://localhost:3306/" + databaseName;
-            connection = DriverManager.getConnection(url, dotenv.get("MYSQL_USER"),
-                dotenv.get("MYSQL_PASS"));
+            connection = DriverManager.getConnection(url, dotenv.get("MYSQL_USER"), dotenv.get("MYSQL_PASS"));
             connection.setAutoCommit(false);
         } catch (SQLException ex) {
             System.getLogger(DatabaseBroker.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);

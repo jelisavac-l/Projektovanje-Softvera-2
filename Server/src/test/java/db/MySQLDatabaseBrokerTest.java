@@ -16,18 +16,18 @@ class MySQLDatabaseBrokerTest {
 
     @BeforeAll
     static void establishConnection() {
-        msdb = new MySQLDatabaseBroker("ProjektovanjeSoftvera");
+        msdb = MySQLDatabaseBroker.getInstance();
         msdb.createConnection();
     }
 
     @Test
     void createConnection() {
-        assertTrue(new MySQLDatabaseBroker("ProjektovanjeSoftvera").createConnection());
+        assertTrue(MySQLDatabaseBroker.getInstance().createConnection());
     }
 
     @Test
     void createRecord() {
-        Athlete athlete = new Athlete(null, "Gagarin", "Milicevic",
+        Athlete athlete = new Athlete(null, "Mile", "Dizna",
             LocalDate.now(), false, 190, 87d,
             new Club(32L, null, null));
         msdb.createRecord(athlete);
