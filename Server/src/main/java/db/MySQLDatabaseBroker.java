@@ -122,6 +122,28 @@ public class MySQLDatabaseBroker implements DatabaseBroker {
         return list;
     }
 
+    public List<DomainObject> findRecords(DomainObject doObj) {
+        ResultSet rs = null;
+        Statement statement = null;
+        String query = "SELECT * FROM `" + databaseName + "`.`" + doObj.getTableName() + "` AS " +
+            doObj.getAlias() + " " + doObj.getJoinClause();
+        List<DomainObject> list = new LinkedList<>();
+
+        try {
+            statement = connection.createStatement();
+            rs = statement.executeQuery(query);
+            while (rs.next()) {
+                list.add(doObj.getNewRecord(rs));
+
+            }
+        } catch (SQLException ex) {
+            System.getLogger(DatabaseBroker.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        } finally {
+            closeResources(null, statement, rs);
+        }
+        return list;
+    }
+
     @Override
     public boolean commitTransaction() {
         try {
