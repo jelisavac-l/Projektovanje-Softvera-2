@@ -16,6 +16,8 @@ public class Club implements DomainObject {
         this.address = address;
     }
 
+    public Club() {}
+
     public Long getId() {
         return id;
     }

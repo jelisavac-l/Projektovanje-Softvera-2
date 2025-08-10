@@ -18,6 +18,13 @@ public class EvaluationItem implements DomainObject {
         this.activity = activity;
     }
 
+    public void resolveNullPointers() {
+        if(this.evaluation == null) this.evaluation = new Evaluation();
+        if(this.activity == null) this.activity = new Activity();
+    }
+
+    public EvaluationItem() {}
+
     public Evaluation getEvaluation() {
         return evaluation;
     }
@@ -78,6 +85,7 @@ public class EvaluationItem implements DomainObject {
 
     @Override
     public DomainObject getNewRecord(ResultSet rs) throws SQLException {
+        resolveNullPointers();
         return new EvaluationItem(
             new Evaluation(
                 rs.getLong(this.evaluation.getAlias() + ".id"),
@@ -106,6 +114,7 @@ public class EvaluationItem implements DomainObject {
 
     @Override
     public String getJoinClause() {
+        resolveNullPointers();
         return "JOIN " +
             this.activity.getTableName() +
             " " +

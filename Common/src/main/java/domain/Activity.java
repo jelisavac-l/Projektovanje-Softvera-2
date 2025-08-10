@@ -16,6 +16,8 @@ public class Activity implements DomainObject {
         this.unit = unit;
     }
 
+    public Activity() {}
+
     public Long getId() {
         return id;
     }

@@ -14,6 +14,8 @@ public class Role implements DomainObject {
         this.name = name;
     }
 
+    public Role() {}
+
     public Long getId() {
         return id;
     }

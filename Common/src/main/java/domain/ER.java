@@ -19,6 +19,8 @@ public class ER implements DomainObject {
         this.endDate = endDate;
     }
 
+    public ER() {}
+
     public Evaluator getEvaluator() {
         return evaluator;
     }
@@ -51,6 +53,11 @@ public class ER implements DomainObject {
         this.endDate = endDate;
     }
 
+    public void resolveNullPointers() {
+        if(this.evaluator == null) this.evaluator = new Evaluator();
+        if(this.role == null) this.role = new Role();
+    }
+
     @Override
     public String getAttributeValuesForInsert() {
         return evaluator.getId() + ", " + role.getId() + ", '" + startDate + "', '" + endDate + "'";
@@ -79,6 +86,7 @@ public class ER implements DomainObject {
 
     @Override
     public DomainObject getNewRecord(ResultSet rs) throws SQLException {
+        resolveNullPointers();
         return new ER(
             new Evaluator(
                 rs.getLong(this.evaluator.getAlias() + ".id"),
@@ -107,6 +115,7 @@ public class ER implements DomainObject {
 
     @Override
     public String getJoinClause() {
+        resolveNullPointers();
         return "JOIN " +
             this.evaluator.getTableName() +
             " " +

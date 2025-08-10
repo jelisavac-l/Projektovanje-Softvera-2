@@ -29,6 +29,8 @@ public class Evaluator implements DomainObject {
         this.active = active;
     }
 
+    public Evaluator() {}
+
     public Long getId() {
         return id;
     }

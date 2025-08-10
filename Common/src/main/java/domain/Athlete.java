@@ -27,6 +27,7 @@ public class Athlete implements DomainObject {
         this.club = club;
     }
 
+    public Athlete() {}
 
     public Long getId() {
         return id;
@@ -93,6 +94,10 @@ public class Athlete implements DomainObject {
 
     }
 
+    public void resolveNullPointers() {
+        if(this.club == null) this.club = new Club();
+    }
+
     @Override
     public String toString() {
         return firstName + " " + lastName + " (" + club + ")";
@@ -137,15 +142,19 @@ public class Athlete implements DomainObject {
 
     @Override
     public DomainObject getNewRecord(ResultSet rs) throws SQLException {
+        Club c = new Club(
+            rs.getLong(this.club.getAlias() + ".id"),
+            rs.getString(this.club.getAlias() + ".name"),
+            rs.getString(this.club.getAlias() + ".address"));
         return new Athlete(
-            rs.getLong(1),
-            rs.getString(2),
-            rs.getString(3),
-            rs.getObject(4, java.time.LocalDate.class),
-            rs.getBoolean(5),
-            rs.getInt(6),
-            rs.getDouble(7),
-            new Club(rs.getLong(8), rs.getString(9), rs.getString(10))
+            rs.getLong(getAlias() + ".id"),
+            rs.getString(getAlias() + ".firstName"),
+            rs.getString(getAlias() + ".lastName"),
+            rs.getObject(getAlias() + ".birthday", LocalDate.class),
+            rs.getBoolean(getAlias() + ".gender"),
+            rs.getInt(getAlias() + ".height"),
+            rs.getDouble(getAlias() + ".currentWeight"),
+            c
         );
     }
 
@@ -156,6 +165,7 @@ public class Athlete implements DomainObject {
 
     @Override
     public String getJoinClause() {
+        resolveNullPointers();
         return "JOIN " +
             this.club.getTableName() +
             " " +

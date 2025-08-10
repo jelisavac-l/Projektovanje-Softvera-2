@@ -39,6 +39,8 @@ public class Evaluation implements DomainObject {
         this.valid = valid;
     }
 
+    public Evaluation() {}
+
     public Long getId() {
         return id;
     }
@@ -103,6 +105,11 @@ public class Evaluation implements DomainObject {
         this.valid = valid;
     }
 
+    public void resolveNullPointers() {
+        if(this.evaluator == null) this.evaluator = new Evaluator();
+        if(this.athlete == null) this.athlete = new Athlete();
+    }
+
     @Override
     public String getAttributeValuesForInsert() {
         return "'" + evaluationDate + "', '" + conditions + "', " + athleteWeight + ", " +
@@ -133,6 +140,7 @@ public class Evaluation implements DomainObject {
 
     @Override
     public DomainObject getNewRecord(ResultSet rs) throws SQLException {
+        resolveNullPointers();
         return new Evaluation(
             rs.getLong(this.getAlias() + ".id"),
             rs.getObject(this.getAlias() + ".evaluationDate", java.time.LocalDate.class),
@@ -169,6 +177,7 @@ public class Evaluation implements DomainObject {
 
     @Override
     public String getJoinClause() {
+        resolveNullPointers();
         return "JOIN " +
             this.athlete.getTableName() +
             " " +
