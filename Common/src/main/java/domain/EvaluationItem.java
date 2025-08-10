@@ -80,7 +80,7 @@ public class EvaluationItem implements DomainObject {
 
     @Override
     public String getWhereCondition() {
-        return "evaluation = " + evaluation.getId() + " AND serial = " + serial;
+        return this.getAlias() + ".evaluation = " + evaluation.getId() + " AND " + this.getAlias() + ".serial = " + serial;
     }
 
     @Override

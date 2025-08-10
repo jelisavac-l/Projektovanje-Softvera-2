@@ -137,7 +137,7 @@ public class Athlete implements DomainObject {
 
     @Override
     public String getWhereCondition() {
-        return "id=" + id;
+        return this.getAlias() + ".id=" + id;
     }
 
     @Override

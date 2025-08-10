@@ -81,7 +81,7 @@ public class ER implements DomainObject {
 
     @Override
     public String getWhereCondition() {
-        return "evaluator = " + this.evaluator + " AND role = " + this.role + " AND startDate = " + this.startDate;
+        return this.getAlias() + ".evaluator = " + this.evaluator + " AND " + this.getAlias() + ".role = " + this.role + " AND startDate = " + this.startDate;
     }
 
     @Override
