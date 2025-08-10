@@ -74,4 +74,12 @@ class ListRetrieverTest {
         assertNotNull(la);
         System.out.println("Found: " + la.size());
     }
+
+    @Test
+    @DisplayName("Retrieve with WHERE condition")
+    void getWithWhere() {
+        Club c = new Club(2L, null, null);
+        List<DomainObject> la = ListRetriever.retrieveByClass(Athlete.class, c);
+        System.out.println("Found: " + la.size());
+    }
 }
