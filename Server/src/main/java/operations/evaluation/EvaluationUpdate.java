@@ -7,11 +7,11 @@ public class EvaluationUpdate extends Operation {
 
     @Override
     public boolean checkConstraints(DomainObject domainObject) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean executeOperation(DomainObject domainObject) {
-        return false;
+        return databaseBroker.updateRecord(domainObject);
     }
 }
