@@ -101,9 +101,9 @@ public class ClientHandler extends Thread{
             }
             
             case ACTIVITY_UPDATE: {
-                @SuppressWarnings("unchecked")
-                List<Activity> activities = (List<Activity>) request.getArgument();
-                ActivityController.update(activities.get(0), activities.get(1));
+                // TODO: One argument
+//                List<Activity> activities = (List<Activity>) request.getArgument();
+//                ActivityController.update(activities.get(0), activities.get(1));
                 return 0;
             }
             
@@ -126,7 +126,6 @@ public class ClientHandler extends Thread{
             case ATHLETE_UPDATE: {
                 @SuppressWarnings("unchecked")
                 List<Athlete> athletes = (List<Athlete>) request.getArgument();
-                AthleteController.update(athletes.get(0), athletes.get(1));
                 return 0;
             }
             
@@ -152,10 +151,10 @@ public class ClientHandler extends Thread{
             }
             
             case CLUB_UPDATE: {
-                @SuppressWarnings("unchecked")
-                List<Club> clubs = (List<Club>) request.getArgument();
-                ClubController.update(clubs.get(0), clubs.get(1));
-                return 0;
+//                @SuppressWarnings("unchecked")
+//                List<Club> clubs = (List<Club>) request.getArgument();
+//                ClubController.update(clubs.get(0), clubs.get(1));
+//                return 0;
             }
             
             case CLUB_DELETE: {
@@ -227,10 +226,10 @@ public class ClientHandler extends Thread{
             }
             
             case EVALUATOR_UPDATE: {
-                @SuppressWarnings("unchecked")
-                List<Evaluator> evaluators = (List<Evaluator>) request.getArgument();
-                EvaluatorController.update(evaluators.get(0), evaluators.get(1));
-                return 0;
+//                @SuppressWarnings("unchecked")
+//                List<Evaluator> evaluators = (List<Evaluator>) request.getArgument();
+//                EvaluatorController.update(evaluators.get(0), evaluators.get(1));
+//                return 0;
             }
             
             case EVALUATOR_DELETE: {
@@ -255,10 +254,10 @@ public class ClientHandler extends Thread{
             }
             
             case ROLE_UPDATE: {
-                @SuppressWarnings("unchecked")
-                List<Role> roles = (List<Role>) request.getArgument();
-                RoleController.update(roles.get(0), roles.get(1));
-                return 0;
+//                @SuppressWarnings("unchecked")
+//                List<Role> roles = (List<Role>) request.getArgument();
+//                RoleController.update(roles.get(0), roles.get(1));
+//                return 0;
             }
             
             case ROLE_DELETE: {

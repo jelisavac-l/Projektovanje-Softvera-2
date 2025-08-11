@@ -1,7 +1,13 @@
 package controllers;
 
 import db.DatabaseConnection;
+import domain.Activity;
+import domain.DomainObject;
 import domain.Role;
+import operations.ListRetriever;
+import operations.role.RoleCreation;
+import operations.role.RoleDeletion;
+import operations.role.RoleUpdate;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -11,48 +17,23 @@ import java.util.List;
 public class RoleController {
 
     public static List<Role> getList() throws SQLException {
-        List<Role> roleList = new LinkedList<>();
-        Connection conn = DatabaseConnection.getConnection();
-        String query = "SELECT * FROM Roles";
-        Statement st = conn.createStatement();
-        ResultSet rs = st.executeQuery(query);
-        while(rs.next()) {
-            roleList.add(new Role(
-                rs.getLong(1),
-                rs.getString(2)
-            ));
-        }
-        return roleList;
+        List<Role> roles = new LinkedList<>();
+        List<DomainObject> ldo = ListRetriever.retrieveByClass(Role.class);
+        if(ldo != null)
+            ldo.forEach(d -> roles.add((Role) d));
+        return roles;
     }
 
     public static void add(Role role) throws SQLException {
-        Connection conn = DatabaseConnection.getConnection();
-        String query = "INSERT INTO Roles(name) VALUES(?)";
-        PreparedStatement ps = conn.prepareStatement(query);
-        ps.setString(1, role.getName());
-        ps.executeUpdate();
+        new RoleCreation().commonExecution(role);
     }
 
-    /**
-     * Updates role1 with data from role2.
-     * @param role1 old role
-     * @param role2 new role; id can be null
-     * @throws SQLException on database error
-     */
-    public static void update(Role role1, Role role2) throws SQLException {
-        Connection conn = DatabaseConnection.getConnection();
-        String query = "UPDATE Roles SET name=? WHERE id=?";
-        PreparedStatement ps = conn.prepareStatement(query);
-        ps.setString(1, role2.getName());
-        ps.setLong(2, role1.getId());
-        ps.executeUpdate();
+    public static void update(Role role) throws SQLException {
+        new RoleUpdate().commonExecution(role);
     }
 
     public static void delete(Role role) throws SQLException {
-        Connection conn = DatabaseConnection.getConnection();
-        String query = "DELETE FROM Roles WHERE id=" + role.getId();
-        Statement st = conn.createStatement();
-        st.executeUpdate(query);
+        new RoleDeletion().commonExecution(role);
     }
 
 

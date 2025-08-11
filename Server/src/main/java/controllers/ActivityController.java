@@ -1,7 +1,11 @@
 package controllers;
 
-import db.DatabaseConnection;
 import domain.Activity;
+import domain.DomainObject;
+import operations.ListRetriever;
+import operations.activity.ActivityCreation;
+import operations.activity.ActivityDeletion;
+import operations.activity.ActivityUpdate;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -9,62 +13,32 @@ import java.util.List;
 
 public class ActivityController {
 
-    public static List<Activity> getList() throws SQLException {
-        List<Activity> activityList = new LinkedList<>();
-        Connection conn = DatabaseConnection.getConnection();
-        String query = "SELECT * FROM Activities";
-        Statement st = conn.createStatement();
-        ResultSet rs = st.executeQuery(query);
-        while(rs.next()) {
-            activityList.add(new Activity(
-                rs.getLong(1),
-                rs.getString(2),
-                rs.getString(3)
-            ));
-        }
-        return activityList;
+    public static List<Activity> getList() {
+        List<Activity> activities = new LinkedList<>();
+        List<DomainObject> ldo = ListRetriever.retrieveByClass(Activity.class);
+        if(ldo != null)
+            ldo.forEach(d -> activities.add((Activity) d));
+        return activities;
     }
 
-    public static Activity getById(Long activityId) throws SQLException {
-        String sql = "SELECT id, name, unit FROM Activities WHERE id = ?";
-        Activity activity = null;
-
-        Connection connection = DatabaseConnection.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setLong(1, activityId);
-
-        ResultSet resultSet = preparedStatement.executeQuery();
-
-        if (resultSet.next()) {
-            String name = resultSet.getString("name");
-            String unit = resultSet.getString("unit");
-            activity = new Activity(activityId, name, unit);
-        }
-
-        return activity;
+    public static Activity getById(Long activityId) {
+        Activity activity = new Activity(activityId, null, null);
+        var list = ListRetriever.retrieveByClass(Activity.class, activity);
+        if(list != null)
+            return (Activity) list.get(0);
+        else return null;
     }
 
     public static void add(Activity activity) throws SQLException {
-        Connection conn = DatabaseConnection.getConnection();
-        String query = "INSERT INTO Activities(name, unit) VALUES (?, ?)";
-        PreparedStatement ps = conn.prepareStatement(query);
-        ps.setString(1, activity.getName());
-        ps.setString(2, activity.getUnit());
-        ps.executeUpdate();
+        new ActivityCreation().commonExecution(activity);
     }
 
-    public static void update(Activity act1, Activity act2) throws SQLException {
-        Connection conn = DatabaseConnection.getConnection();
-        String query = "UPDATE Activities SET name=?, unit=? WHERE id=?";
-        PreparedStatement ps = conn.prepareStatement(query);
-        ps.setString(1,act2.getName());
-        ps.setString(2, act2.getUnit());
-        ps.setLong(3, act1.getId());
-        ps.executeUpdate();
+    public static void update(Activity activity) throws SQLException {
+        new ActivityUpdate().commonExecution(activity);
     }
 
     public static void delete(Activity activity) throws SQLException {
-        throw new UnsupportedOperationException();
+        new ActivityDeletion().commonExecution(activity);
     }
 
 }
