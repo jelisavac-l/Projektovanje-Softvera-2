@@ -1,20 +1,26 @@
 package controllers;
 
-import db.DatabaseConnection;
 import domain.*;
 import operations.ListRetriever;
 import operations.evaluation.EvaluationCreation;
 import operations.evaluation.EvaluationUpdate;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EvaluationController {
 
     public static List<Evaluation> getList() throws SQLException {
-        throw new UnsupportedOperationException(); // TODO TODO TODO !!!!!
+        var domainEvaluations = ListRetriever.retrieveByClass(Evaluation.class);
+        var evaluations = new ArrayList<Evaluation>();
+        if(domainEvaluations != null)
+            domainEvaluations.forEach(d -> {
+                Evaluation e = (Evaluation) d;
+                e.setItems(getItemsList(e));
+                evaluations.add(e);
+            });
+        return evaluations;
     }
 
 
@@ -23,8 +29,12 @@ public class EvaluationController {
     }
 
 
-    public static List<EvaluationItem> getItemsList(Evaluation evaluation) throws SQLException {
-        throw new UnsupportedOperationException(); // TODO TODO TODO !!!!!
+    public static List<EvaluationItem> getItemsList(Evaluation evaluation){
+        var doItems = ListRetriever.retrieveByClass(EvaluationItem.class, evaluation);
+        List<EvaluationItem> evaluationItems = new ArrayList<>();
+        if(doItems != null)
+            doItems.forEach(i -> evaluationItems.add((EvaluationItem) i));
+        return evaluationItems;
     }
 
 
