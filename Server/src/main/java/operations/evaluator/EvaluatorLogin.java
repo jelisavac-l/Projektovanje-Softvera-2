@@ -3,6 +3,7 @@ package operations.evaluator;
 import domain.DomainObject;
 import domain.Evaluator;
 import operations.Operation;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class EvaluatorLogin extends Operation {
 
@@ -15,8 +16,8 @@ public class EvaluatorLogin extends Operation {
     @Override
     public boolean executeOperation(DomainObject domainObject) {
         Evaluator evaluator = (Evaluator) domainObject;
-        String where = evaluator.getAlias() + ".username=" + evaluator.getUsername() + " AND " +
-            evaluator.getAlias() + ".password=" + evaluator.getPassword();
-        return databaseBroker.findRecords(domainObject, where) != null;
+        String where = evaluator.getAlias() + ".username=" + evaluator.getUsername();
+        Evaluator found = (Evaluator) databaseBroker.findRecords(domainObject, where);
+        return BCrypt.checkpw(evaluator.getPassword(), found.getPassword());
     }
 }

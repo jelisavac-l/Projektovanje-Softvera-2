@@ -1,7 +1,9 @@
 package operations.evaluator;
 
 import domain.DomainObject;
+import domain.Evaluator;
 import operations.Operation;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class EvaluatorCreation extends Operation {
 
@@ -12,6 +14,8 @@ public class EvaluatorCreation extends Operation {
 
     @Override
     public boolean executeOperation(DomainObject domainObject) {
-        return databaseBroker.createRecord(domainObject);
+        Evaluator evaluator = (Evaluator) domainObject;
+        evaluator.setPassword(BCrypt.hashpw(evaluator.getPassword(), BCrypt.gensalt()));
+        return databaseBroker.createRecord(evaluator);
     }
 }
