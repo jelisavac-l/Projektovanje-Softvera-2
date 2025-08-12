@@ -1,17 +1,19 @@
 package controllers;
 
 import db.DatabaseConnection;
-import domain.Activity;
-import domain.DomainObject;
-import domain.Evaluator;
-import domain.Role;
+import domain.*;
 import operations.ListRetriever;
 import operations.evaluator.EvaluatorCreation;
 import operations.evaluator.EvaluatorDeletion;
 import operations.evaluator.EvaluatorUpdate;
+import operations.role.RoleCreation;
+import operations.role.RoleEnd;
+import operations.role.RoleStart;
+import operations.role.RoleUpdate;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -51,20 +53,36 @@ public class EvaluatorController {
     }
 
     public static List<Role> getCurrentRoleList(Evaluator evaluator) throws SQLException {
-        throw new UnsupportedOperationException();
+        List<Role> roles = new ArrayList<>();
+        var ldo = ListRetriever.retrieveByClass(ER.class, evaluator);
+        if(ldo != null)
+            ldo.forEach(d -> {
+                ER e = (ER) d;
+                if(e.getEndDate() != null)
+                    roles.add(e.getRole());
+            });
+        return roles;
     }
 
     public static List<Role> getAllRoleList(Evaluator evaluator) throws SQLException {
-        throw new UnsupportedOperationException();
+        List<Role> roles = new ArrayList<>();
+        var ldo = ListRetriever.retrieveByClass(ER.class, evaluator);
+        if(ldo != null)
+            ldo.forEach(d -> {
+                ER e = (ER) d;
+                roles.add(e.getRole());
+            });
+        return roles;
     }
 
     public static void startRole(Evaluator evaluator, Role role) throws SQLException {
-        throw new UnsupportedOperationException();
-
+        ER er = new ER(evaluator, role, LocalDate.now(), null);
+        new RoleStart().commonExecution(er);
     }
 
     public static void endRole(Evaluator evaluator, Role role) throws SQLException {
-        throw new UnsupportedOperationException();
+        ER er = new ER(evaluator, role, null, null);
+        new RoleEnd().commonExecution(er);
     }
 
 }
