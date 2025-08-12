@@ -70,7 +70,7 @@ public class EvaluationItem implements DomainObject {
 
     @Override
     public String getColumnNames() {
-        return "evaluation, serial, result, activityId";
+        return "evaluation, serial, result, activity";
     }
 
     @Override
