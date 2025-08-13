@@ -73,19 +73,7 @@ public class ClientHandler extends Thread{
             
             case LOGIN: {
                 Evaluator temp = (Evaluator) request.getArgument();
-                Evaluator found = EvaluatorController.getByCredentials(temp);
-                if(found == null) throw new Exception("User not found!");
-
-                // Assign that user to this thread.
-                loggedIn = found;
-
-                return found;
-            }
-            
-            case REGISTER: {
-                Evaluator temp = (Evaluator) request.getArgument();
-                EvaluatorController.add(temp);
-                return 0;
+                EvaluatorController.login(temp);
             }
             
             case ACTIVITY_GET: {

@@ -115,6 +115,7 @@ public class MySQLDatabaseBroker implements DatabaseBroker {
                 list.add(doObj.getNewRecord(rs));
             }
         } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
             System.getLogger(DatabaseBroker.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         } finally {
             closeResources(null, statement, rs);

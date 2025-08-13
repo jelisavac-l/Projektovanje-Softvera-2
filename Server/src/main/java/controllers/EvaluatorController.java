@@ -5,6 +5,7 @@ import domain.*;
 import operations.ListRetriever;
 import operations.evaluator.EvaluatorCreation;
 import operations.evaluator.EvaluatorDeletion;
+import operations.evaluator.EvaluatorLogin;
 import operations.evaluator.EvaluatorUpdate;
 import operations.role.RoleCreation;
 import operations.role.RoleEnd;
@@ -34,6 +35,10 @@ public class EvaluatorController {
         if(list != null)
             return (Evaluator) list.get(0);
         else return null;
+    }
+
+    public static boolean login(Evaluator evaluator) throws SQLException {
+        return new EvaluatorLogin().commonExecution(evaluator);
     }
 
     public static Evaluator getByCredentials(Evaluator e) throws SQLException {

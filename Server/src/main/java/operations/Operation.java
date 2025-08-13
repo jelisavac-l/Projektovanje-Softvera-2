@@ -1,8 +1,10 @@
 package operations;
 
 import db.DatabaseBroker;
+import db.MySQLDatabaseBroker;
 import domain.DomainObject;
 
+import javax.xml.crypto.Data;
 import java.sql.SQLException;
 
 public abstract class Operation {
@@ -33,6 +35,7 @@ public abstract class Operation {
                 } else databaseBroker.rollbackTransaction();
             }
         } catch (Exception e) {
+            System.out.println("Rollback: " + e.getMessage());
             databaseBroker.rollbackTransaction();
         }
 
