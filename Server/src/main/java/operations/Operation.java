@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public abstract class Operation {
 
-    protected DatabaseBroker databaseBroker;
+    protected DatabaseBroker databaseBroker = MySQLDatabaseBroker.getInstance();
 
     /**
      * Executes a system operation using the Template Method pattern.

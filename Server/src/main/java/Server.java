@@ -1,3 +1,4 @@
+import db.MySQLDatabaseBroker;
 import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
@@ -11,7 +12,10 @@ public class Server {
     public static void main(String[] args) {
         System.out.println(MAIN_SYM + "Projektovanje Softvera 2.0 SERVER");
         System.out.println(MAIN_SYM + "Setting up...");
-
+        if(!MySQLDatabaseBroker.getInstance().createConnection()) {
+            System.out.println("Error: Database connection refused.");
+            return;
+        }
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             System.out.println(MAIN_SYM +"Serving on 127.0.0.1:" + PORT);    // 2022-0554 :)
             System.out.println(MAIN_SYM + "Current number of threads: " + Thread.activeCount());

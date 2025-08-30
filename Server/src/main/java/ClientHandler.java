@@ -65,6 +65,7 @@ public class ClientHandler extends Thread{
     private synchronized Object handleRequest(Request request) throws Exception {
         Object result = null;
         threadPrint("Client has requested " + request.getOperation());
+        // Todo: proslediti svim operacijiama prazan response pa nek one popune
         switch (request.getOperation()) {
 
             case PING: {
