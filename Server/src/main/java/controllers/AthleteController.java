@@ -32,15 +32,15 @@ public class AthleteController {
     }
 
 
-    public static void add(Athlete athlete) throws SQLException {
-        new AthleteCreation().commonExecution(athlete);
+    public static boolean add(Athlete athlete) throws SQLException {
+        return new AthleteCreation().commonExecution(athlete);
     }
 
-    public static void update(Athlete athlete) throws SQLException {
-        new AthleteUpdate().commonExecution(athlete);
+    public static boolean update(Athlete athlete) throws SQLException {
+        return new AthleteUpdate().commonExecution(athlete);
     }
 
-    public static void delete(Athlete athlete) throws SQLException {
-        new AthleteDeletion().commonExecution(athlete);
+    public static boolean delete(Athlete athlete) throws SQLException {
+        return new AthleteDeletion().commonExecution(athlete);
     }
 }

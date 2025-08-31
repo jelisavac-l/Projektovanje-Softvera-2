@@ -24,16 +24,16 @@ public class RoleController {
         return roles;
     }
 
-    public static void add(Role role) throws SQLException {
-        new RoleCreation().commonExecution(role);
+    public static boolean add(Role role) throws SQLException {
+        return new RoleCreation().commonExecution(role);
     }
 
-    public static void update(Role role) throws SQLException {
-        new RoleUpdate().commonExecution(role);
+    public static boolean update(Role role) throws SQLException {
+        return new RoleUpdate().commonExecution(role);
     }
 
-    public static void delete(Role role) throws SQLException {
-        new RoleDeletion().commonExecution(role);
+    public static boolean delete(Role role) throws SQLException {
+        return new RoleDeletion().commonExecution(role);
     }
 
 

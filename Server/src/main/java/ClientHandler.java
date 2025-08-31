@@ -74,7 +74,7 @@ public class ClientHandler extends Thread{
             
             case LOGIN: {
                 Evaluator temp = (Evaluator) request.getArgument();
-                EvaluatorController.login(temp);
+                return EvaluatorController.login(temp);
             }
             
             case ACTIVITY_GET: {
@@ -85,20 +85,17 @@ public class ClientHandler extends Thread{
             
             case ACTIVITY_NEW: {
                 Activity temp = (Activity) request.getArgument();
-                ActivityController.add(temp);
-                return 0;
+                return ActivityController.add(temp);
             }
             
             case ACTIVITY_UPDATE: {
                 Activity activity = (Activity) request.getArgument();
-                ActivityController.update(activity);
-                return 0;
+                return ActivityController.update(activity);
             }
             
             case ACTIVITY_DELETE: {
                 Activity temp = (Activity) request.getArgument();
-                ActivityController.delete(temp);
-                return 0;
+                return ActivityController.delete(temp);
             }
             
             case ATHLETE_GET: {
@@ -107,20 +104,17 @@ public class ClientHandler extends Thread{
             
             case ATHLETE_NEW: {
                 Athlete temp = (Athlete) request.getArgument();
-                AthleteController.add(temp);
-                return 0;
+                return AthleteController.add(temp);
             }
             
             case ATHLETE_UPDATE: {
                 Athlete athlete = (Athlete) request.getArgument();
-                AthleteController.update(athlete);
-                return 0;
+                return AthleteController.update(athlete);
             }
             
             case ATHLETE_DELETE: {
                 Athlete temp = (Athlete) request.getArgument();
-                AthleteController.delete(temp);
-                return 0;
+                return AthleteController.delete(temp);
             }
             
             case CLUB_GET: {
@@ -134,18 +128,17 @@ public class ClientHandler extends Thread{
             
             case CLUB_NEW: {
                Club temp = (Club) request.getArgument();
-               ClubController.add(temp);
-               return 0;
+               return ClubController.add(temp);
             }
             
             case CLUB_UPDATE: {
                 Club club = (Club) request.getArgument();
-                ClubController.update(club);
+                return ClubController.update(club);
             }
             
             case CLUB_DELETE: {
                 Club club = (Club) request.getArgument();
-                ClubController.delete(club);
+                return ClubController.delete(club);
             }
             
             case ER_GET: {
@@ -162,8 +155,7 @@ public class ClientHandler extends Thread{
                 List<Object> args = (List<Object>) request.getArgument();
                 Evaluator evaluator = (Evaluator) args.get(0);
                 Role role = (Role) args.get(1);
-                EvaluatorController.startRole(evaluator, role);
-                return 0;
+                return EvaluatorController.startRole(evaluator, role);
             }
             
             case ER_END: {
@@ -171,8 +163,7 @@ public class ClientHandler extends Thread{
                 List<Object> args = (List<Object>) request.getArgument();
                 Evaluator evaluator = (Evaluator) args.get(0);
                 Role role = (Role) args.get(1);
-                EvaluatorController.endRole(evaluator, role);
-                return 0;
+                return EvaluatorController.endRole(evaluator, role);
             }
             
             case EVALUATION_GET: {
@@ -181,8 +172,7 @@ public class ClientHandler extends Thread{
             
             case EVALUATION_NEW: {
                 Evaluation temp = (Evaluation) request.getArgument();
-                EvaluationController.add(temp);
-                return 0;
+                return EvaluationController.add(temp);
             }
             
             case EVALUATION_UPDATE: {
@@ -202,8 +192,7 @@ public class ClientHandler extends Thread{
 
             case EVALUATION_INVALIDATE: {
                 Evaluation temp = (Evaluation) request.getArgument();
-                EvaluationController.invalidate(temp);
-                return 0;
+                return EvaluationController.invalidate(temp);
             }
 
             case EVALUATOR_GET: {
@@ -212,13 +201,12 @@ public class ClientHandler extends Thread{
             
             case EVALUATOR_UPDATE: {
                 Evaluator evaluator = (Evaluator) request.getArgument();
-                EvaluatorController.update(evaluator);
+                return EvaluatorController.update(evaluator);
             }
             
             case EVALUATOR_DELETE: {
                 Evaluator temp = (Evaluator) request.getArgument();
-                EvaluatorController.delete(temp);
-                return 0;
+                return EvaluatorController.delete(temp);
             }
             
             case EVALUATOR_GET_ROLES: {
@@ -232,19 +220,17 @@ public class ClientHandler extends Thread{
             
             case ROLE_NEW: {
                 Role temp = (Role) request.getArgument();
-                RoleController.add(temp);
-                return 0;
+                return RoleController.add(temp);
             }
             
             case ROLE_UPDATE: {
                 Role role = (Role) request.getArgument();
-                RoleController.update(role);
+                return RoleController.update(role);
             }
             
             case ROLE_DELETE: {
                 Role temp = (Role) request.getArgument();
-                RoleController.delete(temp);
-                return 0;
+                return RoleController.delete(temp);
             }
         }
         return result;

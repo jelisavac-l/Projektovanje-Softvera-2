@@ -29,16 +29,16 @@ public class ClubController {
         else return null;
     }
 
-    public static void add(Club club) throws SQLException {
-        new ClubCreation().commonExecution(club);
+    public static boolean add(Club club) throws SQLException {
+        return new ClubCreation().commonExecution(club);
     }
 
-    public static void update(Club club) throws SQLException {
-        new ClubCreation().commonExecution(club);
+    public static boolean update(Club club) throws SQLException {
+        return new ClubCreation().commonExecution(club);
     }
 
-    public static void delete(Club club) throws SQLException {
-        new ClubDeletion().commonExecution(club);
+    public static boolean delete(Club club) throws SQLException {
+        return new ClubDeletion().commonExecution(club);
     }
 
 }

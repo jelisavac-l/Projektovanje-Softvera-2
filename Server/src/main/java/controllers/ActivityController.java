@@ -29,16 +29,16 @@ public class ActivityController {
         else return null;
     }
 
-    public static void add(Activity activity) throws SQLException {
-        new ActivityCreation().commonExecution(activity);
+    public static boolean add(Activity activity) throws SQLException {
+        return new ActivityCreation().commonExecution(activity);
     }
 
-    public static void update(Activity activity) throws SQLException {
-        new ActivityUpdate().commonExecution(activity);
+    public static boolean update(Activity activity) throws SQLException {
+        return new ActivityUpdate().commonExecution(activity);
     }
 
-    public static void delete(Activity activity) throws SQLException {
-        new ActivityDeletion().commonExecution(activity);
+    public static boolean delete(Activity activity) throws SQLException {
+        return new ActivityDeletion().commonExecution(activity);
     }
 
 }

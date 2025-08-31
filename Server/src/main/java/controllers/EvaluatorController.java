@@ -1,6 +1,7 @@
 package controllers;
 
 import db.DatabaseConnection;
+import db.MySQLDatabaseBroker;
 import domain.*;
 import operations.ListRetriever;
 import operations.evaluator.EvaluatorCreation;
@@ -37,24 +38,28 @@ public class EvaluatorController {
         else return null;
     }
 
-    public static boolean login(Evaluator evaluator) throws SQLException {
-        return new EvaluatorLogin().commonExecution(evaluator);
+    public static Evaluator login(Evaluator evaluator) throws SQLException {
+        if(!new EvaluatorLogin().commonExecution(evaluator)) {
+            return null;
+        }
+        String where = evaluator.getAlias() + ".username='" + evaluator.getUsername() + "'";
+        return (Evaluator) MySQLDatabaseBroker.getInstance().findRecords(evaluator, where).get(0);
     }
 
     public static Evaluator getByCredentials(Evaluator e) throws SQLException {
         throw new UnsupportedOperationException();
     }
 
-    public static void add(Evaluator evaluator) throws SQLException {
-        new EvaluatorCreation().commonExecution(evaluator);
+    public static boolean add(Evaluator evaluator) throws SQLException {
+        return new EvaluatorCreation().commonExecution(evaluator);
     }
 
-    public static void update(Evaluator evaluator) throws SQLException {
-        new EvaluatorUpdate().commonExecution(evaluator);
+    public static boolean update(Evaluator evaluator) throws SQLException {
+        return new EvaluatorUpdate().commonExecution(evaluator);
     }
 
-    public static void delete(Evaluator evaluator) throws SQLException {
-        new EvaluatorDeletion().commonExecution(evaluator);
+    public static boolean delete(Evaluator evaluator) throws SQLException {
+        return new EvaluatorDeletion().commonExecution(evaluator);
     }
 
     public static List<Role> getCurrentRoleList(Evaluator evaluator) throws SQLException {
@@ -80,14 +85,14 @@ public class EvaluatorController {
         return roles;
     }
 
-    public static void startRole(Evaluator evaluator, Role role) throws SQLException {
+    public static boolean startRole(Evaluator evaluator, Role role) throws SQLException {
         ER er = new ER(evaluator, role, LocalDate.now(), null);
-        new RoleStart().commonExecution(er);
+        return new RoleStart().commonExecution(er);
     }
 
-    public static void endRole(Evaluator evaluator, Role role) throws SQLException {
+    public static boolean endRole(Evaluator evaluator, Role role) throws SQLException {
         ER er = new ER(evaluator, role, null, null);
-        new RoleEnd().commonExecution(er);
+        return new RoleEnd().commonExecution(er);
     }
 
 }

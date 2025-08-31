@@ -24,8 +24,8 @@ public class EvaluationController {
     }
 
 
-    public static void add(Evaluation evaluation) throws SQLException {
-        new EvaluationCreation().commonExecution(evaluation);
+    public static boolean add(Evaluation evaluation) throws SQLException {
+        return new EvaluationCreation().commonExecution(evaluation);
     }
 
 
@@ -38,9 +38,9 @@ public class EvaluationController {
     }
 
 
-    public static void invalidate(Evaluation evaluation) throws SQLException {
+    public static boolean invalidate(Evaluation evaluation) throws SQLException {
         evaluation.setValid(false);
-        new EvaluationUpdate().commonExecution(evaluation);
+        return new EvaluationUpdate().commonExecution(evaluation);
     }
 
 

@@ -19,7 +19,7 @@ public class EvaluatorLogin extends Operation {
         Evaluator evaluator = (Evaluator) domainObject;
         String where = evaluator.getAlias() + ".username='" + evaluator.getUsername() + "'";
         Evaluator found = (Evaluator) databaseBroker.findRecords(evaluator, where).get(0);
-        System.out.println(found.getPassword() + " je lozinka!");
+//        System.out.println(found.getPassword() + " je lozinka!");
         return BCrypt.checkpw(evaluator.getPassword(), found.getPassword());
     }
 }
